@@ -6,10 +6,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
+import math
 from collections import Counter
 
 def first():
-	print("help()でヘルプを表示。コマンドラインで利用する際に参照。\nすべてをインポートする際に時間がかかる可能性あり\n\nインポート方法\nimport tlib as t\n\n関数使用方法\nt.関数名\n")
+	print("たいした機能もないtlibへようこそ。\nライブラリをインポートする際に時間がかかります。\n\nインポート方法\nimport tlib as t\n\n関数使用方法\nt.関数名\n")
 
 #helps
 def help():
@@ -80,7 +81,7 @@ def reverseSort(x):
 	unsrt = copy.copy(x)
 	print(np.sort(unsrt)[::-1])
 
-#データ数が多い場合使用すればいいと思うの。
+#データ数が多い場合使用するとよい
 def describeData(x):
 	print(pd.Series(x).describe())
 
@@ -226,7 +227,7 @@ def doubleStatus(x, y):
 		mid1 = li1[int(np.floor(len(li1) / 2))]
 		mid2 = li2[int(np.floor(len(li2) / 2))]
 
-	#最頻値を計算。分からなかったのではなく人力でやろうとするとめんどくさかったからやってない。
+	#最頻値を計算。
 	mode1 = Counter(li1).most_common(1)
 	mode2 = Counter(li2).most_common(1)
 
@@ -241,7 +242,7 @@ def doubleStatus(x, y):
 	#共分散を計算
 	kyoubun = (aa / len(li1)) - (ave1 * ave2) 
 
-	#相関係数を計算。0だった場合、強制的に0を表示する。
+	#相関係数を計算。0だった場合、Error出力
 	if hyo1 == 0 or hyo2 == 0:
 		err = "ERROR: 0のため相関係数を計算できません。"
 		flag = 1
@@ -272,6 +273,8 @@ def doubleStatus(x, y):
 	else:
 		print("相関係数: ", round(r, 4))
 		print("回帰係数: y = ax + bとするとき、\n a = ", round(a, 4), ", b = ", round(b, 4),"\n")
+
+
 
 #main
 if __name__ == '__main__':
