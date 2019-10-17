@@ -173,7 +173,7 @@ def doubleStatus(x, y):
 		print("ERROR: リストの長さが異なります。")
 
 	#必要なものを宣言。
-	l = ["要素数:   ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ", "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
+	l = ["データ数: ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ", "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
 	aa = ll1 = ii1 = ll2 = ii2 = 0 
 	xx = []
 	yy = []
@@ -215,7 +215,7 @@ def doubleStatus(x, y):
 	hehe1 = ii1 / len(li1)
 	hehe2 = ii2 / len(li2)
 
-	#二条平均を計算
+	#二乗平均を計算
 	double1 = ll1 / len(li1)
 	double2 = ll2 / len(li2)
 
@@ -231,7 +231,7 @@ def doubleStatus(x, y):
 	mode1 = Counter(li1).most_common(1)
 	mode2 = Counter(li2).most_common(1)
 
-	#分散を計算
+	#分散を計算　二乗平均 - 平均^2
 	bun1 = double1 - (ave1 ** 2)
 	bun2 = double2 - (ave2 ** 2)
 
@@ -267,14 +267,12 @@ def doubleStatus(x, y):
 	for i in range(len(yy)):
 		print(l[i], yy[i])
 
-	print("\n共分散:   ", round(kyoubun, 4))
+	print("\n\n共分散:   ", round(kyoubun, 4))
 	if flag != 0:
 		print(err)
 	else:
 		print("相関係数: ", round(r, 4))
 		print("回帰係数: y = ax + bとするとき、\n a = ", round(a, 4), ", b = ", round(b, 4),"\n")
-
-
 
 #main
 if __name__ == '__main__':

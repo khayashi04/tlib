@@ -30,16 +30,17 @@ while True:
 		y = list(map(int, input("list2> ").split()))
 	elif xx == 7:
 		#helpを表示
-		t.helps()	
+		t.help()
+		continue	
 	else:
 		print("ERROR")
 		break
 	
-	yy = int(input("\n次に使用する関数を選択。0を入力で終了。\n1: primeNum\n2: sort\n3: rsort\n4: dist\n5: ddist\n6: plot\n7: dsta\n8: des\n9: table\n10: diceAll\n11: dicett\n12: dicekt\n"))
+	yy = int(input("\n次に使用する関数を選択。0を入力で終了。\n1: primeNum\n2: sort\n3: reverseSort\n4: singleHist\n5: doubleHist\n6: plot\n7: doubleStatus\n8: describeData\n9: table\n10: diceAllPattern\n11: doubleDiceSum\n12: doubleDiceMult\n"))
 	if yy == 0:
 		break
 	elif yy  == 1:
-		primeNum(int(input("整数を入力\n")))
+		t.primeNum(int(input("整数を入力\n")))
 	elif yy== 2:
 		print("\ndate1\n")
 		t.sort(x)
