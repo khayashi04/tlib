@@ -46,8 +46,12 @@ def help():
 		for i in range(len(com)):
 			print(com[i])
 		h = int(input())
+		if h > 13 or h < 0: 
+			print("\nError 1から13までの数字で入力してください。\n")
+			continue
 		if h == 0: break
 		print("\n",th[h], "\n")
+		break
 
 #素数関連　ふるいを用いた素数洗い出し
 def primeNum(num):
@@ -259,11 +263,11 @@ def doubleStatus(x, y):
 	yy.extend([len(li2), round(ave2, 4), mid2, mode2[0][0], ma2, mi2, ren2, round(double2, 4), round(hehe2, 4), round(bun2, 4), round(hyo2, 4)])
 
 	#結果を出力。
-	print("\nx date\n")
+	print("\ndate 1\n")
 	for i in range(len(xx)):
 		print(l[i], xx[i])
 
-	print("\ny date\n")
+	print("\ndate 2\n")
 	for i in range(len(yy)):
 		print(l[i], yy[i])
 
