@@ -8,6 +8,7 @@ import pandas as pd
 import copy
 import math
 from collections import Counter
+from fractions import Fraction
 
 def first():
 	print("たいした機能もないtlibへようこそ。\nライブラリをインポートする際に時間がかかります。\n\nインポート方法\nimport tlib as t\n\n関数使用方法\nt.関数名\n")
@@ -128,12 +129,17 @@ def doubleDiceSum():
 			diceT.append(i+j)
 	print(pd.Series(diceT).value_counts(sort=False))
 
+#掛け算パターン
 def doubleDiceMult():
 	diceK = []
 	for i in range(1,7):
 		for j in range(1,7):
 			diceK.append(i*j)
 	print(pd.Series(diceK).value_counts(sort=False))
+
+#既約分数を表示
+def fraction(x,y):
+	print(Fraction(x,y))
 
 #関数をたたきまくった代物
 def singleStatus(x):
@@ -239,7 +245,7 @@ def doubleStatus(x, y):
 	hyo1 = np.sqrt(bun1)
 	hyo2 = np.sqrt(bun2)
 
-	#共分散を計算
+	#共分散を計算 全体のデータ/データ数 - xの平均 * yの平均
 	kyoubun = (aa / len(li1)) - (ave1 * ave2) 
 
 	#相関係数を計算。0だった場合、Error出力
@@ -273,6 +279,7 @@ def doubleStatus(x, y):
 	else:
 		print("相関係数: ", round(r, 4))
 		print("回帰係数: y = ax + bとするとき、\n a = ", round(a, 4), ", b = ", round(b, 4),"\n")
+
 
 #main
 if __name__ == '__main__':

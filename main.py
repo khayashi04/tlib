@@ -6,8 +6,8 @@ while True:
 		break
 	if xx == 1:
 		#-999から999のj範囲の整数を1000個生成
-		x = np.random.randint(-999,999,1000)
-		y = np.random.randint(-999,999,1000)
+		x = np.random.randint(-999,999,10000)
+		y = np.random.randint(-999,999,10000)
 	elif xx == 2:
 		#正規分布にそった乱数を1000個生成
 		x = np.random.randn(1000)
