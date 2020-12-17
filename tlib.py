@@ -27,7 +27,8 @@ def help():
 		"10: table(list)",
 		"11: diceAllPattern()",
 		"12: doubleDiceSum()",
-		"13: doubleDiceMult()"]
+		"13: doubleDiceMult()",
+		"14: fraction()"]
 
 	th = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
 		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
@@ -41,14 +42,15 @@ def help():
 		10:"table(リスト): 指定されたリストの度数分布表を表示。左側に階級値、右側に頻度。",
 		11:"diceAllPattern(): 二つのさいころの全パターンを表示。",
 		12:"doubleDiceSum(): 二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
-		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。"}
+		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
+		14:"fraction(要素1,要素2): 要素1/要素2を既約分数で表示。"}
 	while 1:
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
 		for i in range(len(com)):
 			print(com[i])
 		h = int(input())
-		if h > 13 or h < 0: 
-			print("\nError 1から13までの数字で入力してください。\n")
+		if h > 14 or h < 0: 
+			print("\nError 1から14までの数字で入力してください。\n")
 			continue
 		if h == 0: break
 		print("\n",th[h], "\n")
