@@ -28,7 +28,8 @@ def help():
 		"11: diceAllPattern()",
 		"12: doubleDiceSum()",
 		"13: doubleDiceMult()",
-		"14: fraction()"]
+		"14: fraction()",
+		"15: levenshtein()"]
 
 	th = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
 		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
@@ -43,7 +44,8 @@ def help():
 		11:"diceAllPattern(): 二つのさいころの全パターンを表示。",
 		12:"doubleDiceSum(): 二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
 		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
-		14:"fraction(要素1,要素2): 要素1/要素2を既約分数で表示。"}
+		14:"fraction(整数1,整数2): 整数1/整数2を既約分数で表示。",
+		15:"levenshtein(文字列1,文字列): 文字列1と文字列2のレーヴェンシュタイン距離を求める。"}
 	while 1:
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
 		for i in range(len(com)):
@@ -57,25 +59,28 @@ def help():
 		break
 
 #素数関連　ふるいを用いた素数洗い出し
-def primeNum(num):
-	n = [] #素数を格納するためのリスト
-	li = [] #2から入力された値までのすべての数を格納するリスト
+def primeNum(x):
+	if type(x) is not int:
+		print("ERROR 整数を入力してください。")
+	else:
+		n = [] #素数を格納するためのリスト
+		li = [] #2から入力された値までのすべての数を格納するリスト
 
-	#2から入力された値までのすべての数を格納
-	li = [i for i in range(2,num+1)]
+		#2から入力された値までのすべての数を格納
+		li = [i for i in range(2,x+1)]
 
-	#liリストの0番目が入力された値の平方根以下になるまでloop
-	while li[0] <= int(np.sqrt(num)):
-		n.append(li[0]) #nリストにliリストの0番目を追加
-		sss = li[0] #sssにliリストの0番目を格納
-		li = [i for i in li if i % sss != 0] #素数判定
-	n.extend(li) #liリストに残った数を素数としてnリストに格納
+		#liリストの0番目が入力された値の平方根以下になるまでloop
+		while li[0] <= int(np.sqrt(num)):
+			n.append(li[0]) #nリストにliリストの0番目を追加
+			sss = li[0] #sssにliリストの0番目を格納
+			li = [i for i in li if i % sss != 0] #素数判定
+		n.extend(li) #liリストに残った数を素数としてnリストに格納
 
-	#素数をプリント
-	print(n,"\n")
+		#素数をプリント
+		print(n,"\n")
 
-	#素数の数をプリント
-	print("素数の合計: ", len(n), "\n")
+		#素数の数をプリント
+		print("素数の合計: ", len(n), "\n")
 
 
 #リストソート(昇順)
@@ -145,7 +150,42 @@ def doubleDiceMult():
 
 #既約分数を表示
 def fraction(x,y):
-	print(Fraction(x,y))
+	if (type(x) is not int) or (type(y) is not int):
+		print("ERROR 整数を入力してください。")
+	else:
+		print(Fraction(x,y))
+
+#レーヴェンシュタイン距離を求める
+def levenshtein(x,y):
+	num = [0]*3
+	xli = ["$"]
+	yli = ["$"]
+
+	for i in x:
+		xli.append(i)
+	for j in y:
+		yli.append(j)
+
+	li = [[0 for i in range(len(xli))] for j in range(len(yli))]
+
+	for i in range(len(xli)):
+		li[0][i] = i
+	for j in range(len(yli)):
+		li[j][0] = j
+
+	for i in range(len(yli) - 1):
+		for j in range(len(xli) - 1):
+			num[0] = li[i+1][j] + 1
+			num[1] = li[i][j+1] + 1
+			if y[i] == x[j]:
+				num[2] = li[i][j]
+			else:
+				num[2] = li[i][j] + 1
+			li[i+1][j+1] = min(num)
+			num = [0,0,0]
+
+	lev = pd.DataFrame(data=li,columns=xli,index=yli)
+	print(lev,"\n\n","距離: ",li[len(yli)-1][len(xli)-1])
 
 #関数をたたきまくった代物
 def singleStatus(x):
