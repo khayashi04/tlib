@@ -11,20 +11,20 @@ from collections import Counter
 from fractions import Fraction
 
 def first():
-	print("たいした機能もないtlibへようこそ。\nライブラリをインポートする際に時間がかかります。\n\nインポート方法\nimport tlib as t\n\n関数使用方法\nt.関数名\n")
+	print("tlibへようこそ。\nライブラリをインポートする際に時間がかかります。\n\nインポート方法\nimport tlib as t\n\n関数使用方法\nt.関数名\n")
 
 #helps
 def help():
-	com = ["1: primeNum(num)",
-		"2: sort(list)",
-		"3: reverseSort(list)",
-		"4: singleHist(list)",
-		"5: doubleHist(list1,list2)",
-		"6: plot(list1, list2)",
-		"7: singleStatus(list)",
-		"8: doubleStatus(list1,list2)",
-		"9: describeData(list)",
-		"10: table(list)",
+	com = ["1: primeNum()",
+		"2: sort()",
+		"3: reverseSort()",
+		"4: singleHist()",
+		"5: doubleHist()",
+		"6: plot()",
+		"7: singleStatus()",
+		"8: doubleStatus()",
+		"9: describeData()",
+		"10: table()",
 		"11: diceAllPattern()",
 		"12: doubleDiceSum()",
 		"13: doubleDiceMult()",
@@ -267,8 +267,10 @@ def doubleStatus(x, y):
 
 
 	#すべての結果をリストに追加
-	xx.extend([len(li1), round(ave1, 4), mid1, mode1[0][0], ma1, mi1, ren1, round(double1, 4), round(hehe1, 4), round(bun1, 4), round(hyo1, 4)])
-	yy.extend([len(li2), round(ave2, 4), mid2, mode2[0][0], ma2, mi2, ren2, round(double2, 4), round(hehe2, 4), round(bun2, 4), round(hyo2, 4)])
+	xx.extend([len(li1), round(ave1, 4), mid1, mode1[0][0], 
+		ma1, mi1, ren1, round(double1, 4), round(hehe1, 4), round(bun1, 4), round(hyo1, 4)])
+	yy.extend([len(li2), round(ave2, 4), mid2, mode2[0][0], 
+		ma2, mi2, ren2, round(double2, 4), round(hehe2, 4), round(bun2, 4), round(hyo2, 4)])
 
 	#結果を出力。
 	print("\ndate 1\n")
@@ -287,6 +289,6 @@ def doubleStatus(x, y):
 		print("回帰係数: y = ax + bとするとき、\n a = ", round(a, 4), ", b = ", round(b, 4),"\n")
 
 
-#main
+#main tlibについての説明
 if __name__ == '__main__':
 	first()
