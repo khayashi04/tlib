@@ -51,7 +51,7 @@ def help():
 		for i in range(len(com)):
 			print(com[i])
 		h = int(input())
-		if h > 14 or h < 0: 
+		if h > 15 or h < 0: 
 			print("\nError 1から14までの数字で入力してください。\n")
 			continue
 		if h == 0: break
@@ -59,154 +59,154 @@ def help():
 		break
 
 #素数関連　ふるいを用いた素数洗い出し
-def primeNum(x):
-	if type(x) is not int:
+def primeNum(num):
+	if type(num) is not int:
 		print("ERROR 整数を入力してください。")
 	else:
-		n = [] #素数を格納するためのリスト
-		li = [] #2から入力された値までのすべての数を格納するリスト
-
+		#素数を格納するためのリスト	
+		prime_list = []
 		#2から入力された値までのすべての数を格納
-		li = [i for i in range(2,x+1)]
+		number_list = [i for i in range(2,num+1)]
 
-		#liリストの0番目が入力された値の平方根以下になるまでloop
-		while li[0] <= int(np.sqrt(num)):
-			n.append(li[0]) #nリストにliリストの0番目を追加
-			sss = li[0] #sssにliリストの0番目を格納
-			li = [i for i in li if i % sss != 0] #素数判定
-		n.extend(li) #liリストに残った数を素数としてnリストに格納
+		#number_listの0番目が入力された値の平方根以下になるまでloop
+		while number_list[0] <= int(np.sqrt(num)):
+			#prime_listにnumer_listの0番目を追加
+			prime_list.append(number_list[0]) 
+			#headにliリストの0番目を格納
+			head = number_list[0] 
+			#素数判定
+			number_list = [i for i in number_list if i % head != 0]
 
+		#number_listに残った数を素数としてprime_listリストに格納
+		prime_list.extend(number_list) 
 		#素数をプリント
-		print(n,"\n")
-
+		print(prime_list,"\n")
 		#素数の数をプリント
-		print("素数の合計: ", len(n), "\n")
-
+		print("素数の合計: ", len(prime_list), "\n")
 
 #リストソート(昇順)
-def sort(x):
-	srt = copy.copy(x)
+def sort(list):
+	srt = copy.copy(list)
 	print(np.sort(srt))
 
 #リストソート(降順)
-def reverseSort(x):
-	unsrt = copy.copy(x)
+def reverseSort(list):
+	unsrt = copy.copy(list)
 	print(np.sort(unsrt)[::-1])
 
 #データ数が多い場合使用するとよい
-def describeData(x):
-	print(pd.Series(x).describe())
+def describeData(list):
+	print(pd.Series(list).describe())
 
 #度数分布表を表示
-def table(x):
-	print(pd.Series(x).value_counts())
+def table(list):
+	print(pd.Series(list).value_counts())
 
 #ヒストグラムを表示
-def singleHist(x):
-	plt.hist(x)
+def singleHist(list):
+	plt.hist(list)
 	plt.show()
 
 #ヒストグラムを二つ表示
-def doubleHist(x,y):	
+def doubleHist(list1,list2):	
 	plt.subplot(2,2,1)
-	plt.hist(x)
-	plt.title("hist x")
+	plt.hist(list1)
+	plt.title("List1")
 	plt.subplot(2,2,4)
-	plt.hist(y)
-	plt.title("hist y")
+	plt.hist(list2)
+	plt.title("List2")
 	plt.show()
 
 #散布図を描画。値渡しは回避済み
-def plot(x, y):	
-	plt.scatter(x,y)
-	plt.xlabel("x")
-	plt.ylabel("y")
+def plot(list1, list2):	
+	plt.scatter(list1,list2)
+	plt.xlabel("List1")
+	plt.ylabel("List2")
 	plt.show()
 
 #さいころ全パターン
 def diceAllPattern():
-	x = 1
 	for i in range(1,7):
 		for j in range(1,7):
 			print(i, "+", j, "= ", i+j)
-			x += 1
 			if j == 6: print("")
 
 #足し算パターン
 def doubleDiceSum():
-	diceT = []
+	dice = []
 	for i in range(1,7):
 		for j in range(1,7):
-			diceT.append(i+j)
-	print(pd.Series(diceT).value_counts(sort=False))
+			dice.append(i+j)
+	print(pd.Series(dice).value_counts(sort=False))
 
 #掛け算パターン
 def doubleDiceMult():
-	diceK = []
+	dice = []
 	for i in range(1,7):
 		for j in range(1,7):
-			diceK.append(i*j)
-	print(pd.Series(diceK).value_counts(sort=False))
+			dice.append(i*j)
+	print(pd.Series(dice).value_counts(sort=False))
 
 #既約分数を表示
-def fraction(x,y):
-	if (type(x) is not int) or (type(y) is not int):
+def fraction(num1,num2):
+	if (type(num1) is not int) or (type(num2) is not int):
 		print("ERROR 整数を入力してください。")
 	else:
-		print(Fraction(x,y))
+		print(Fraction(num1,num2))
 
 #レーヴェンシュタイン距離を求める
-def levenshtein(x,y):
+def levenshtein(str1,str2):
 	num = [0]*3
-	xli = ["$"]
-	yli = ["$"]
-	for i in x: xli.append(i)
-	for j in y: yli.append(j)
+	str1_list = list(map(str,str1))
+	str2_list = list(map(str,str2))
+	str1_list.insert(0,"$")
+	str2_list.insert(0,"$")
 
-	li = [[0 for i in range(len(xli))] for j in range(len(yli))]
+	leven_list =[[i for i in range(len(str1_list))] for j in range(len(str2_list))]
+	for i in range(len(str2_list)): 
+		leven_list[i][0] = i
 
-	for i in range(len(xli)): li[0][i] = i
-	for j in range(len(yli)): li[j][0] = j
-	print(li)
+	for y in range(len(str2_list) - 1):
+		for x in range(len(str1_list) - 1):
+			num[0] = leven_list[y+1][x] + 1
+			num[1] = leven_list[y][x+1] + 1
+			if str2[y] == str1[x]: 
+				num[2] = leven_list[y][x]
+			else: 
+				num[2] = leven_list[y][x] + 1
+			leven_list[y+1][x+1] = min(num)
 
-	for i in range(len(yli) - 1):
-		for j in range(len(xli) - 1):
-			num[0] = li[i+1][j] + 1
-			num[1] = li[i][j+1] + 1
-			if y[i] == x[j]:
-				num[2] = li[i][j]
-			else:
-				num[2] = li[i][j] + 1
-			li[i+1][j+1] = min(num)
-			num = [0,0,0]
-
-	lev = pd.DataFrame(data=li,columns=xli,index=yli)
-	print(lev,"\n\n","距離: ",li[len(yli)-1][len(xli)-1])
+	lev = pd.DataFrame(data=leven_list,columns=str1_list,index=str2_list)
+	print(lev,"\n\n","距離: ",leven_list[len(str2_list)-1][len(str1_list)-1])
 
 #関数をたたきまくった代物
-def singleStatus(x):
-	#値渡し回避
-	li = copy.copy(x)
-
+def singleStatus(list):
+	li = copy.copy(list)
+	result = []
 	#リストをソート
 	li.sort
-
 	#二乗平均を計算する際に使用
-	lii = []
-	ii = ll = 0
-	l = ["要素数:   ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ", "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
+	doubleAve = doubleSqr = 0
 
+	name = ["要素数:   ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
+	 "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
 	#格納作業
-	for i in range(len(li)): ll += li[i] ** 2 
-	for i in range(len(li)): ii += abs(li[i] - np.mean(li))
+	for i in range(len(li)): 
+		doubleAve += li[i] ** 2
+		doubleSqr += abs(li[i] - np.mean(li))
+	#最頻値を計算
 	mode = Counter(li).most_common(1)
-	lii.extend([len(li), round(np.mean(li), 4), np.median(li), mode[0][0], max(li), min(li), max(li) - min(li), round(ll / len(li), 4), round(ii / len(li), 4), round(np.var(li), 4), round(np.std(li), 4)])
+	result.extend([len(li), round(np.mean(li), 4), np.median(li), 
+		mode[0][0], max(li), min(li), max(li) - min(li), 
+		round(doubleAve / len(li), 4), round(doubleSqr / len(li), 4), round(np.var(li), 4), 
+		round(np.std(li), 4)])
 
 	#print作業
 	print("")
-	for i in range(10):
-		print(l[i], lii[i])
+	for i in range(len(name)):
+		print(name[i], result[i])
 	print("")
+
 
 #こっちは統計の勉強用に作成したもので、numpyの関数は使っていません。ほんとは少しだけ使いました
 def doubleStatus(x, y):

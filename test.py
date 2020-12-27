@@ -1,36 +1,32 @@
-import pandas as pd
 import numpy as np
-def levenshtein(x,y):
-	num = [0]*3
-	xli = list(map(str,x))
-	yli = list(map(str,y))
-	xli.insert(0,"$")
-	yli.insert(0,"$")
-	print(xli,yli)
+import copy
+from collections import Counter
+def singleStatus(list):
+	single_list = copy.copy(list)
+	result = []
+	#リストをソート
+	single_list.sort
+	#二乗平均を計算する際に使用
+	doubleAve = doubleSqr = 0
 
-	#li = [[0]*len(xli)]*len(yli)
-	li =[[0 for i in range(len(xli))] for j in range(len(yli))]
+	name = ["要素数:   ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
+	 "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
+	#格納作業
+	for i in range(len(single_list)): 
+		doubleAve += single_list[i] ** 2 
+		doubleSqr += abs(single_list[i] - np.mean(single_list))
+	#最頻値を計算
+	mode = Counter(single_list).most_common(1)
+	result.extend([len(single_list), round(np.mean(single_list), 4), np.median(single_list), 
+		mode[0][0], max(single_list), min(single_list), max(single_list) - min(single_list), 
+		round(doubleAve / len(single_list), 4), round(doubleSqr / len(single_list), 4), round(np.var(single_list), 4), 
+		round(np.std(single_list), 4)])
 
-	for i in range(len(xli)): 
-		li[0][i] = i
-		print(li)
-	for j in range(len(yli)): 
-		li[j][0] = j
-		print(li)
-
-	for yy in range(len(yli) - 1):
-		for xx in range(len(xli) - 1):
-			num[0] = li[yy+1][xx] + 1
-			num[1] = li[yy][xx+1] + 1
-			if y[yy] == x[xx]:
-				num[2] = li[yy][xx]
-			else:
-				num[2] = li[yy][xx] + 1
-			li[yy+1][xx+1] = min(num)
-			num = [0,0,0]
-
-	lev = pd.DataFrame(data=li,columns=xli,index=yli)
-	print(lev,"\n\n","距離: ",li[len(yli)-1][len(xli)-1])
+	#print作業
+	print("")
+	for i in range(len(name)):
+		print(name[i], result[i])
+	print("")
 
 if __name__ == '__main__':
-	levenshtein("takoyaki","tako")
+	singleStatus([1,5,15,12,5,321,4513,532,35,15,51,2,51,5,15,1,5,15,51,2])
