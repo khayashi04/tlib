@@ -51,11 +51,11 @@ def help():
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
 		for i in range(len(list_name)):
 			print(list_name[i])
-		h = int(input())
-		if h > 15 or h < 0: 
+		is_number_correct = int(input())
+		if is_number_correct > 15 or is_number_correct < 0: 
 			print("\nError 1から14までの数字で入力してください。\n")
 			continue
-		if h == 0: break
+		if is_number_correct == 0: break
 		print("\n",list_info[h], "\n")
 		break
 
@@ -81,7 +81,9 @@ def primeNum(num):
 		#list_numに残った数を素数としてlist_primeリストに格納
 		list_prime.extend(list_num) 
 		#素数をプリント
-		print(list_prime,"\n")
+		list_prime_str = [str(a) for a in list_prime]
+		list_prime_str = ' '.join(list_prime_str)
+		print(list_prime_str,"\n")
 		#素数の数をプリント
 		print("素数の合計: ", len(list_prime), "\n")
 
@@ -92,8 +94,8 @@ def sort(list):
 
 #リストソート(降順)
 def reverseSort(list):
-	list_unsrt = copy.copy(list)
-	print(np.sort(list_unsrt)[::-1])
+	list_srt = copy.copy(list)
+	print(np.sort(list_srt)[::-1])
 
 #データ数が多い場合使用するとよい
 def describeData(list):
@@ -184,34 +186,34 @@ def levenshtein(str1,str2):
 def singleStatus(list):
 	#値渡し回避
 	list_copy = copy.copy(list)
-	result = []
+	data = []
 	
 	#リストをソート
 	list_copy.sort
 	
 	#二乗平均を計算する際に使用
-	double_ave = double_sqr = 0
+	double_average = absolute = 0
 	
 	#各データに対応する名前
-	list_name = ["要素数:   ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
+	list_name = ["データ数: ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
 	 "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
 	
 	#格納作業
 	for i in range(len(list_copy)): 
-		double_ave += list_copy[i] ** 2
-		double_sqr += abs(list_copy[i] - np.mean(list_copy))
+		double_average += list_copy[i] ** 2
+		absolute += abs(list_copy[i] - np.mean(list_copy))
 
 	#最頻値を計算
 	mode = Counter(list_copy).most_common(1)
-	result.extend([len(list_copy), round(np.mean(list_copy), 4), np.median(list_copy), 
+	data.extend([len(list_copy), round(np.mean(list_copy), 4), np.median(list_copy), 
 		mode[0][0], max(list_copy), min(list_copy), max(list_copy) - min(list_copy), 
-		round(double_ave / len(list_copy), 4), round(double_sqr / len(list_copy), 4), round(np.var(list_copy), 4), 
+		round(double_average / len(list_copy), 4), round(absolute / len(list_copy), 4), round(np.var(list_copy), 4), 
 		round(np.std(list_copy), 4)])
 
 	#print作業
 	print("")
 	for i in range(len(list_name)):
-		print(list_name[i], result[i])
+		print(list_name[i], data[i])
 	print("")
 
 
@@ -220,115 +222,117 @@ def doubleStatus(x, y):
 	#flag
 	flag = 0
 	#値渡し回避
-	li1 = copy.copy(x)
-	li2 = copy.copy(y)
+	list_copy1 = copy.copy(x)
+	list_copy2 = copy.copy(y)
 
 	#二つのリストの長さが異なった場合、ERROR文
-	if len(li1) != len(li2):
+	if len(list_copy1) != len(list_copy2):
 		print("ERROR: リストの長さが異なります。")
 
 	#必要なものを宣言。
-	l = ["データ数: ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ", "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
-	aa = ll1 = ii1 = ll2 = ii2 = 0 
-	xx = []
-	yy = []
+	list_name = ["データ数: ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ", "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
+	list_multiplied = absolute1 = absolute2 = list_double1 = list_double2 = 0
+	data1 = []
+	data2 = []
 
 	#共分散を計算するために使用。リストソート前に計算する必要あり。
-	for i in range(len(li1)):
-		aa += li1[i] * li2[i]
+	for i in range(len(list_copy1)):
+		list_multiplied += list_copy1[i] * list_copy2[i]
 
 	#二つのデータを昇順ソート。
-	li1.sort()
-	li2.sort()
+	list_copy1.sort()
+	list_copy2.sort()
 
 	#平均を計算
-	ave1 = sum(li1) / len(li1)
-	ave2 = sum(li2) / len(li2)
+	average1 = sum(list_copy1) / len(list_copy1)
+	average2 = sum(list_copy2) / len(list_copy2)
 
 	#最大値を計算
-	ma1 = li1[len(li1) - 1]
-	ma2 = li2[len(li2) - 1]
+	max1 = list_copy1[len(list_copy1) - 1]
+	max2 = list_copy2[len(list_copy2) - 1]
 
 	#最小値を計算
-	mi1 = li1[0]
-	mi2 = li2[0]
+	min1 = list_copy1[0]
+	min2 = list_copy2[0]
 
 	#範囲（レンジ）を計算		
-	ren1 = ma1 - mi1
-	ren2 = ma2 - mi2
+	renge1 = max1 - min1
+	renge2 = max2 - min2
 
-	for i in range(len(li1)):
+	for i in range(len(list_copy1)):
 	#平均偏差を計算するためにi番目の要素から要素の平均を減算し、その絶対値を取り、すべてを加算する
-		ii1 += abs(li1[i] - ave1)
-		ii2 += abs(li2[i] - ave2)
+		absolute1 += abs(list_copy1[i] - average1)
+		absolute2 += abs(list_copy2[i] - average2)
 
 	#二乗平均を計算するためにi番目の要素を二乗し、すべてを加算する
-		ll1 += li1[i] ** 2	
-		ll2 += li2[i] ** 2	
+		list_double1 += list_copy1[i] ** 2	
+		list_double2 += list_copy2[i] ** 2	
 
 	#平均偏差を計算
-	hehe1 = ii1 / len(li1)
-	hehe2 = ii2 / len(li2)
+	average_deviation1 = absolute1 / len(list_copy1)
+	average_deviation2 = absolute2 / len(list_copy2)
 
 	#二乗平均を計算
-	double1 = ll1 / len(li1)
-	double2 = ll2 / len(li2)
+	double_average1 = list_double1 / len(list_copy1)
+	double_average2 = list_double2 / len(list_copy2)
 
 	#中央値を計算
-	if len(li1) % 2 == 0:
-		mid1 = (li1[int(np.floor(len(li1) / 2))] + li1[int(np.floor(len(li1) / 2 -1))]) / 2
-		mid2 = (li2[int(np.floor(len(li2) / 2))] + li2[int(np.floor(len(li2) / 2 -1))]) / 2
-	elif len(li1) % 2 == 1:
-		mid1 = li1[int(np.floor(len(li1) / 2))]
-		mid2 = li2[int(np.floor(len(li2) / 2))]
+	if len(list_copy1) % 2 == 0:
+		median1 = (list_copy1[int(np.floor(len(list_copy1) / 2))] + list_copy1[int(np.floor(len(list_copy1) / 2 -1))]) / 2
+		median2 = (list_copy2[int(np.floor(len(list_copy2) / 2))] + list_copy2[int(np.floor(len(list_copy2) / 2 -1))]) / 2
+	elif len(list_copy1) % 2 == 1:
+		median1 = list_copy1[int(np.floor(len(list_copy1) / 2))]
+		median2 = list_copy2[int(np.floor(len(list_copy2) / 2))]
 
 	#最頻値を計算。
-	mode1 = Counter(li1).most_common(1)
-	mode2 = Counter(li2).most_common(1)
+	mode1 = Counter(list_copy1).most_common(1)
+	mode2 = Counter(list_copy2).most_common(1)
 
-	#分散を計算　二乗平均 - 平均^2
-	bun1 = double1 - (ave1 ** 2)
-	bun2 = double2 - (ave2 ** 2)
+	#分散を計算　二乗平均 - 平均**2
+	variance1 = double_average1 - (average1 ** 2)
+	variance2 = double_average2 - (average2 ** 2)
 
 	#標準偏差を計算
-	hyo1 = np.sqrt(bun1)
-	hyo2 = np.sqrt(bun2)
+	standard_deviation1 = np.sqrt(variance1)
+	standard_deviation2 = np.sqrt(variance2)
 
-	#共分散を計算 全体のデータ/データ数 - xの平均 * yの平均
-	kyoubun = (aa / len(li1)) - (ave1 * ave2) 
+	#共分散を計算 積のデータ/データ数 - xの平均 * yの平均
+	covariance = (list_multiplied / len(list_copy1)) - (average1 * average2) 
 
 	#相関係数を計算。0だった場合、Error出力
-	if hyo1 == 0 or hyo2 == 0:
+	if standard_deviation1 == 0 or standard_deviation2 == 0:
 		err = "ERROR: 0のため相関係数を計算できません。"
 		flag = 1
 	else:
-		r = kyoubun / hyo1 / hyo2
+		#相関係数を計算
+		correlation_coefficient = covariance / standard_deviation1 / standard_deviation2
 		
 		#回帰係数を計算
-		a = kyoubun / bun1
-		b = ave2 - (a * ave1)
+		a = covariance / variance1
+		b = average2 - (a * average1)
 
 
 	#すべての結果をリストに追加
-	xx.extend([len(li1), round(ave1, 4), mid1, mode1[0][0], 
-		ma1, mi1, ren1, round(double1, 4), round(hehe1, 4), round(bun1, 4), round(hyo1, 4)])
-	yy.extend([len(li2), round(ave2, 4), mid2, mode2[0][0], 
-		ma2, mi2, ren2, round(double2, 4), round(hehe2, 4), round(bun2, 4), round(hyo2, 4)])
+	data1.extend([len(list_copy1), round(average1, 4), median1, mode1[0][0], 
+		max1, min1, renge1, round(double_average1, 4), round(average_deviation1, 4), round(variance1, 4), round(standard_deviation1, 4)])
+
+	data2.extend([len(list_copy2), round(average2, 4), median2, mode2[0][0], 
+		max2, min2, renge2, round(double_average2, 4), round(average_deviation2, 4), round(variance2, 4), round(standard_deviation2, 4)])
 
 	#結果を出力。
 	print("\ndate 1\n")
-	for i in range(len(xx)):
-		print(l[i], xx[i])
+	for i in range(len(data1)):
+		print(list_name[i], data1[i])
 
 	print("\ndate 2\n")
-	for i in range(len(yy)):
-		print(l[i], yy[i])
+	for i in range(len(data2)):
+		print(list_name[i], data2[i])
 
-	print("\n\n共分散:   ", round(kyoubun, 4))
+	print("\n\n共分散:   ", round(covariance, 4))
 	if flag != 0:
 		print(err)
 	else:
-		print("相関係数: ", round(r, 4))
+		print("相関係数: ", round(correlation_coefficient, 4))
 		print("回帰係数: y = ax + bとするとき、\n a = ", round(a, 4), ", b = ", round(b, 4),"\n")
 
 
