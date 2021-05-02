@@ -15,7 +15,7 @@ def first():
 
 #helps
 def help():
-	com = ["1: primeNum()",
+	list_name = ["1: primeNum()",
 		"2: sort()",
 		"3: reverseSort()",
 		"4: singleHist()",
@@ -31,7 +31,7 @@ def help():
 		"14: fraction()",
 		"15: levenshtein()"]
 
-	th = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
+	list_info = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
 		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
 		3:"reverseSort(リスト): 指定されたリストを降順に並べ替え。", 
 		4:"singleHist(リスト): 指定されたリストのヒストグラムを表示。",
@@ -46,16 +46,17 @@ def help():
 		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
 		14:"fraction(整数1,整数2): 整数1/整数2を既約分数で表示。",
 		15:"levenshtein(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。"}
+	
 	while 1:
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
-		for i in range(len(com)):
-			print(com[i])
+		for i in range(len(list_name)):
+			print(list_name[i])
 		h = int(input())
 		if h > 15 or h < 0: 
 			print("\nError 1から14までの数字で入力してください。\n")
 			continue
 		if h == 0: break
-		print("\n",th[h], "\n")
+		print("\n",list_info[h], "\n")
 		break
 
 #素数関連　ふるいを用いた素数洗い出し
@@ -64,35 +65,35 @@ def primeNum(num):
 		print("ERROR 整数を入力してください。")
 	else:
 		#素数を格納するためのリスト	
-		prime_list = []
+		list_prime = []
 		#2から入力された値までのすべての数を格納
-		number_list = [i for i in range(2,num+1)]
+		list_num = [i for i in range(2,num+1)]
 
-		#number_listの0番目が入力された値の平方根以下になるまでloop
-		while number_list[0] <= int(np.sqrt(num)):
-			#prime_listにnumer_listの0番目を追加
-			prime_list.append(number_list[0]) 
+		#list_numの0番目が入力された値の平方根以下になるまでloop
+		while list_num[0] <= int(np.sqrt(num)):
+			#list_primeにnumer_listの0番目を追加
+			list_prime.append(list_num[0]) 
 			#headにliリストの0番目を格納
-			head = number_list[0] 
+			head = list_num[0] 
 			#素数判定
-			number_list = [i for i in number_list if i % head != 0]
+			list_num = [i for i in list_num if i % head != 0]
 
-		#number_listに残った数を素数としてprime_listリストに格納
-		prime_list.extend(number_list) 
+		#list_numに残った数を素数としてlist_primeリストに格納
+		list_prime.extend(list_num) 
 		#素数をプリント
-		print(prime_list,"\n")
+		print(list_prime,"\n")
 		#素数の数をプリント
-		print("素数の合計: ", len(prime_list), "\n")
+		print("素数の合計: ", len(list_prime), "\n")
 
 #リストソート(昇順)
 def sort(list):
-	srt = copy.copy(list)
-	print(np.sort(srt))
+	list_srt = copy.copy(list)
+	print(np.sort(list_srt))
 
 #リストソート(降順)
 def reverseSort(list):
-	unsrt = copy.copy(list)
-	print(np.sort(unsrt)[::-1])
+	list_unsrt = copy.copy(list)
+	print(np.sort(list_unsrt)[::-1])
 
 #データ数が多い場合使用するとよい
 def describeData(list):
@@ -149,62 +150,68 @@ def doubleDiceMult():
 
 #既約分数を表示
 def fraction(num1,num2):
-	if (type(num1) is not int) or (type(num2) is not int):
+	if (type(num1) is not int) or (type(numb2) is not int):
 		print("ERROR 整数を入力してください。")
 	else:
 		print(Fraction(num1,num2))
 
 #レーヴェンシュタイン距離を求める
 def levenshtein(str1,str2):
-	num = [0]*3
-	str1_list = list(map(str,str1))
-	str2_list = list(map(str,str2))
-	str1_list.insert(0,"$")
-	str2_list.insert(0,"$")
+	list_num = [0]*3
+	list_str1 = list(map(str,str1))
+	list_str2 = list(map(str,str2))
+	list_str1.insert(0,"$")
+	list_str2.insert(0,"$")
 
-	leven_list =[[i for i in range(len(str1_list))] for j in range(len(str2_list))]
-	for i in range(len(str2_list)): 
+	leven_list =[[i for i in range(len(list_str1))] for j in range(len(list_str2))]
+	for i in range(len(list_str2)): 
 		leven_list[i][0] = i
 
-	for y in range(len(str2_list) - 1):
-		for x in range(len(str1_list) - 1):
-			num[0] = leven_list[y+1][x] + 1
-			num[1] = leven_list[y][x+1] + 1
+	for y in range(len(list_str2) - 1):
+		for x in range(len(list_str1) - 1):
+			list_num[0] = leven_list[y+1][x] + 1
+			list_num[1] = leven_list[y][x+1] + 1
 			if str2[y] == str1[x]: 
-				num[2] = leven_list[y][x]
+				list_num[2] = leven_list[y][x]
 			else: 
-				num[2] = leven_list[y][x] + 1
-			leven_list[y+1][x+1] = min(num)
+				list_num[2] = leven_list[y][x] + 1
+			leven_list[y+1][x+1] = min(list_num)
 
-	lev = pd.DataFrame(data=leven_list,columns=str1_list,index=str2_list)
-	print(lev,"\n\n","距離: ",leven_list[len(str2_list)-1][len(str1_list)-1])
+	leven = pd.DataFrame(data=leven_list,columns=list_str1,index=list_str2)
+	print(leven,"\n\n","距離: ",leven_list[len(list_str2)-1][len(list_str1)-1])
 
 #関数をたたきまくった代物
 def singleStatus(list):
-	li = copy.copy(list)
+	#値渡し回避
+	list_copy = copy.copy(list)
 	result = []
+	
 	#リストをソート
-	li.sort
+	list_copy.sort
+	
 	#二乗平均を計算する際に使用
-	doubleAve = doubleSqr = 0
-
-	name = ["要素数:   ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
+	double_ave = double_sqr = 0
+	
+	#各データに対応する名前
+	list_name = ["要素数:   ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
 	 "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
+	
 	#格納作業
-	for i in range(len(li)): 
-		doubleAve += li[i] ** 2
-		doubleSqr += abs(li[i] - np.mean(li))
+	for i in range(len(list_copy)): 
+		double_ave += list_copy[i] ** 2
+		double_sqr += abs(list_copy[i] - np.mean(list_copy))
+
 	#最頻値を計算
-	mode = Counter(li).most_common(1)
-	result.extend([len(li), round(np.mean(li), 4), np.median(li), 
-		mode[0][0], max(li), min(li), max(li) - min(li), 
-		round(doubleAve / len(li), 4), round(doubleSqr / len(li), 4), round(np.var(li), 4), 
-		round(np.std(li), 4)])
+	mode = Counter(list_copy).most_common(1)
+	result.extend([len(list_copy), round(np.mean(list_copy), 4), np.median(list_copy), 
+		mode[0][0], max(list_copy), min(list_copy), max(list_copy) - min(list_copy), 
+		round(double_ave / len(list_copy), 4), round(double_sqr / len(list_copy), 4), round(np.var(list_copy), 4), 
+		round(np.std(list_copy), 4)])
 
 	#print作業
 	print("")
-	for i in range(len(name)):
-		print(name[i], result[i])
+	for i in range(len(list_name)):
+		print(list_name[i], result[i])
 	print("")
 
 
