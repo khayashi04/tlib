@@ -1,4 +1,4 @@
-import numpy as np
+'''import numpy as np
 import copy
 from collections import Counter
 def singleStatus(list):
@@ -27,6 +27,7 @@ def singleStatus(list):
 	for i in range(len(name)):
 		print(name[i], result[i])
 	print("")
-
+'''
+import tlib as t
 if __name__ == '__main__':
-	singleStatus([1,5,15,12,5,321,4513,532,35,15,51,2,51,5,15,1,5,15,51,2])
+	t.singleStatus([1,5,15,12,5,321,4513,532,35,15,51,2,51,5,15,1,5,15,51,2])
