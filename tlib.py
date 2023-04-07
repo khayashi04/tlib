@@ -11,7 +11,7 @@ from collections import Counter
 from fractions import Fraction
 
 def first():
-	print("tlibへようこそ。\nインポートする際に時間がかかります。\n\nインポート方法\nfrom tlib import tlib\n\n関数使用方法\ntlib.関数名\n")
+	print("tlibへようこそ。\nインポートする際に時間がかかります。\n\nインポート方法\nimport tlib\n\n関数使用方法\ntlib.関数名\n")
 
 #helps
 def help():
@@ -29,7 +29,8 @@ def help():
 		"12: doubleDiceSum()",
 		"13: doubleDiceMult()",
 		"14: fract()",
-		"15: leven()"]
+		"15: leven()",
+		"16: collatz()"]
 
 	list_info = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
 		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
@@ -45,7 +46,8 @@ def help():
 		12:"doubleDiceSum(): 二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
 		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
 		14:"fract(整数1,整数2): 整数1/整数2を既約分数で表示。",
-		15:"leven(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。"}
+		15:"leven(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。",
+		16:"collatz(整数): 指定された整数をコラッツ予想の法則に則って計算する。"}
 	
 	while 1:
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
@@ -59,7 +61,7 @@ def help():
 		print("\n",list_info[h], "\n")
 		break
 
-#素数関連　ふるいを用いた素数洗い出し
+#素数関連　エラトステネスの篩を用いた素数洗い出し
 def primeNum(num):
 	if type(num) is not int:
 		print("ERROR 整数を入力してください。")
@@ -186,6 +188,41 @@ def leven(str_1,str_2):
 #各データに対応する名前
 LIST_NAME = ["データ数: ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
  "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
+
+#コラッツ予想
+def collatz(num):
+	#1になるまでの施行回数を表示
+	flag = 0
+	#数式用
+	backNumber = 0
+	if type(num) is not int:
+		print("ERROR 整数を入力してください。")
+	else:
+		while 1:
+			#numが1になるまで以下の操作を繰り返す。1になった場合breakする
+			if num == 1: 
+				break
+			#式を表示するためにひとつ前のnumを格納
+			backNumber = num
+			#numが奇数だった場合
+			if num % 2 == 1:
+				#numを3倍し1を足す
+				num = num * 3 + 1
+				#数式を表示			
+				print(int(backNumber), "* 3 = ",int(num))
+
+			#numが偶数だった場合
+			if num % 2 == 0:	
+				#numを2で割る
+				num = num / 2
+				#数式を表示			
+				print(int(backNumber), "/ 2 = ",int(num))
+			#試行回数カウント
+			flag += 1
+
+		#試行回数を表示
+		print("\n試行回数: ", flag)
+				
 
 #関数をたたきまくった代物
 def singleSt(list):
