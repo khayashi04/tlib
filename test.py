@@ -1,2 +1,2 @@
 import tlib
-tlib.collatz(100)
+tlib.help()

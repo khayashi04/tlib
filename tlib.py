@@ -28,7 +28,7 @@ def help():
 		"11: diceAllPat()",
 		"12: doubleDiceSum()",
 		"13: doubleDiceMult()",
-		"14: fract()",
+		"14: fraction()",
 		"15: leven()",
 		"16: collatz()"]
 
@@ -45,7 +45,7 @@ def help():
 		11:"diceAllPat(): 二つのさいころの全パターンを表示。",
 		12:"doubleDiceSum(): 二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
 		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
-		14:"fract(整数1,整数2): 整数1/整数2を既約分数で表示。",
+		14:"fraction(整数1,整数2): 整数1/整数2を既約分数で表示。",
 		15:"leven(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。",
 		16:"collatz(整数): 指定された整数をコラッツ予想の法則に則って計算する。"}
 	
@@ -53,12 +53,12 @@ def help():
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
 		for i in range(len(list_function)):
 			print(list_function[i])
-		is_number_correct = int(input())
-		if is_number_correct > 15 or is_number_correct < 0: 
+		listNum = int(input())
+		if listNum > 15 or listNum < 0: 
 			print("\nError 1から14までの数字で入力してください。\n")
 			continue
-		if is_number_correct == 0: break
-		print("\n",list_info[h], "\n")
+		if listNum == 0: break
+		print("\n",list_info[listNum], "\n")
 		break
 
 #素数関連　エラトステネスの篩を用いた素数洗い出し
@@ -157,7 +157,7 @@ def fraction(num_1,num_2):
 	if (type(num_1) is not int) or (type(num_2) is not int):
 		print("ERROR 整数を入力してください。")
 	else:
-		print(Fraction(num1,num2))
+		print(Fraction(num_1,num_2))
 
 
 #レーヴェンシュタイン距離を求める
@@ -168,10 +168,12 @@ def leven(str_1,str_2):
 	list_str_1.insert(0,"$")
 	list_str_2.insert(0,"$")
 
+	#表で出力するため一文字ずつleven_listに格納
 	leven_list =[[i for i in range(len(list_str_1))] for j in range(len(list_str_2))]
 	for i in range(len(list_str_2)): 
 		leven_list[i][0] = i
 
+	#以下計算するところ。どういう計算するかはWikipediaまで
 	for y in range(len(list_str_2) - 1):
 		for x in range(len(list_str_1) - 1):
 			list_num[0] = leven_list[y+1][x] + 1
@@ -209,14 +211,14 @@ def collatz(num):
 				#numを3倍し1を足す
 				num = num * 3 + 1
 				#数式を表示			
-				print(int(backNumber), "* 3 = ",int(num))
+				print(int(backNumber), "× 3 + 1 =",int(num))
 
 			#numが偶数だった場合
 			if num % 2 == 0:	
 				#numを2で割る
 				num = num / 2
 				#数式を表示			
-				print(int(backNumber), "/ 2 = ",int(num))
+				print(int(backNumber), "÷ 2 =",int(num))
 			#試行回数カウント
 			flag += 1
 
