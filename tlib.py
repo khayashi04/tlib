@@ -72,18 +72,18 @@ def primeNum(num):
 		#素数を格納するためのリスト	
 		list_prime = []
 		#2から入力された値までのすべての数を格納
-		list_num = [i for i in range(2,num+1)]
+		list_num = [i for i in range(2,num + 1)]
 
 		#list_numの0番目が入力された値の平方根以下になるまでloop
 		while list_num[0] <= int(np.sqrt(num)):
-			#list_primeにnumer_listの0番目を追加
+			#list_primeにlist_numの0番目を追加
 			list_prime.append(list_num[0]) 
-			#headにliリストの0番目を格納
+			#headにlist_numの0番目を格納
 			head = list_num[0] 
 			#素数判定
 			list_num = [i for i in list_num if i % head != 0]
 
-		#list_numに残った数を素数としてlist_primeリストに格納
+		#list_numに残った数を素数としてlist_primeに格納
 		list_prime.extend(list_num) 
 		#素数をプリント
 		list_prime_str = [str(a) for a in list_prime]
@@ -117,59 +117,59 @@ def singleHist(list):
 
 #ヒストグラムを二つ表示
 def doubleHist(list_1,list_2):	
-	plt.subplot(2,2,1)
+	plt.subplot(2, 2, 1)
 	plt.hist(list_1)
 	plt.title("List_1")
-	plt.subplot(2,2,4)
+	plt.subplot(2, 2, 4)
 	plt.hist(list_2)
 	plt.title("List_2")
 	plt.show()
 
 #散布図を描画。値渡しは回避済み
 def plot(list_1, list_2):	
-	plt.scatter(list_1,list_2)
+	plt.scatter(list_1, list_2)
 	plt.xlabel("List_1")
 	plt.ylabel("List_2")
 	plt.show()
 
 #さいころ全パターン
 def diceAllPat():
-	for i in range(1,7):
-		for j in range(1,7):
+	for i in range(1, 7):
+		for j in range(1, 7):
 			print(i, "+", j, "= ", i+j)
 			if j == 6: print("")
 
 #足し算パターン
 def doubleDiceSum():
 	dice = []
-	for i in range(1,7):
-		for j in range(1,7):
-			dice.append(i+j)
+	for i in range(1, 7):
+		for j in range(1, 7):
+			dice.append(i + j)
 	print(pd.Series(dice).value_counts(sort=False))
 
 #掛け算パターン
 def doubleDiceMult():
 	dice = []
-	for i in range(1,7):
-		for j in range(1,7):
-			dice.append(i*j)
+	for i in range(1, 7):
+		for j in range(1, 7):
+			dice.append(i * j)
 	print(pd.Series(dice).value_counts(sort=False))
 
 #既約分数を表示
-def fraction(num_1,num_2):
+def fraction(num_1, num_2):
 	if (type(num_1) is not int) or (type(num_2) is not int):
 		print("ERROR 整数を入力してください。")
 	else:
-		print(Fraction(num_1,num_2))
+		print(Fraction(num_1, num_2))
 
 
 #レーヴェンシュタイン距離を求める
 def leven(str_1,str_2):
 	list_num = [0]*3
-	list_str_1 = list(map(str,str_1))
-	list_str_2 = list(map(str,str_2))
-	list_str_1.insert(0,"$")
-	list_str_2.insert(0,"$")
+	list_str_1 = list(map(str, str_1))
+	list_str_2 = list(map(str, str_2))
+	list_str_1.insert(0, "$")
+	list_str_2.insert(0, "$")
 
 	#表で出力するため一文字ずつleven_listに格納
 	leven_list =[[i for i in range(len(list_str_1))] for j in range(len(list_str_2))]
@@ -179,16 +179,16 @@ def leven(str_1,str_2):
 	#以下計算するところ。どういう計算するかはWikipediaまで
 	for y in range(len(list_str_2) - 1):
 		for x in range(len(list_str_1) - 1):
-			list_num[0] = leven_list[y+1][x] + 1
-			list_num[1] = leven_list[y][x+1] + 1
+			list_num[0] = leven_list[y + 1][x] + 1
+			list_num[1] = leven_list[y][x + 1] + 1
 			if str_2[y] == str_1[x]: 
 				list_num[2] = leven_list[y][x]
 			else: 
 				list_num[2] = leven_list[y][x] + 1
-			leven_list[y+1][x+1] = min(list_num)
+			leven_list[y + 1][x + 1] = min(list_num)
 
 	leven_data = pd.DataFrame(data=leven_list,columns=list_str_1,index=list_str_2)
-	print(leven_data,"\n\n","距離: ",leven_list[len(list_str_2)-1][len(list_str_1)-1])
+	print(leven_data,"\n\n","距離: ",leven_list[len(list_str_2)-1][len(list_str_1) - 1])
 
 #各データに対応する名前
 LIST_NAME = ["データ数: ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
