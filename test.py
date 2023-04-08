@@ -1,2 +1,2 @@
 import tlib
-tlib.help()
+tlib.monte(1000)

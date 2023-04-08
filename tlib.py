@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import copy
 import math
+import random as rd
 from collections import Counter
 from fractions import Fraction
 
@@ -30,7 +31,8 @@ def help():
 		"13: doubleDiceMult()",
 		"14: fraction()",
 		"15: leven()",
-		"16: collatz()"]
+		"16: collatz()",
+		"17: monte()"]
 
 	list_info = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
 		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
@@ -47,16 +49,17 @@ def help():
 		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
 		14:"fraction(整数1,整数2): 整数1/整数2を既約分数で表示。",
 		15:"leven(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。",
-		16:"collatz(整数): 指定された整数をコラッツ予想の法則に則って計算する。"}
+		16:"collatz(整数): 指定された整数をコラッツ予想の法則に則って計算する。",
+		17:"monte(整数): 指定された整数個の点を用いてモンテカルロ法から円周率の近似値を求める。"}
 	
 	while 1:
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
 		for i in range(len(list_function)):
 			print(list_function[i])
 		listNum = int(input())
-		if listNum > 15 or listNum < 0: 
-			print("\nError 1から14までの数字で入力してください。\n")
-			continue
+		if listNum > len(list_function) or listNum < 0: 
+			print("\nError: 1 から", len(list_function), "までの数字で入力してください。\n")
+			break
 		if listNum == 0: break
 		print("\n",list_info[listNum], "\n")
 		break
@@ -224,8 +227,32 @@ def collatz(num):
 
 		#試行回数を表示
 		print("\n試行回数: ", flag)
-				
 
+def monte(num):
+	x = 0 #x軸
+	y = 0 #y軸
+	pai = 0 #実際に求めた円周率を格納
+	a = 0 #
+	i = 0
+	if type(num) is not int:
+		print("ERROR 整数を入力してください。")
+	else:
+		while i < num:
+			x = rd.uniform(-1, 1) #-1から1までの小数点乱数を生成
+			y = rd.uniform(-1, 1) #xと同じ操作
+			if x**2 + y**2 <= 1: #円の公式より中心点から1以下の場合以下の処理を行う
+				a += 1
+				plt.scatter(x, y, color = "blue") #1以下だった場合、円の中と判定し青点を打つ
+			else:
+				plt.scatter(x, y, color = "red") #1以上だった場合、円の外と判定し赤点を打つ
+			i += 1 #num回繰り返す
+		pai = 4 * a / num #PI = 4 * a / (a + b)より
+		print("点の合計数: ", num, "\n実際に求めた円周率: ", pai) #実際に求めた円周率を表示
+		plt.xlim(-1, 1) #綺麗な円を描くためにグラフの表示範囲を変更
+		plt.ylim(-1, 1)
+		plt.axis('square') #グラフの形を正方形に変更
+		plt.show() #グラフ表示
+		
 #関数をたたきまくった代物
 def singleSt(list):
 	#値渡し回避
