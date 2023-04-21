@@ -82,9 +82,11 @@ class StatLi:
 
     #編集距離を求める
     def leven(self):
+        str_1 = self.num_1
+        str_2 = self.num_2
         list_num = [0] * 3
-        list_str_1 = list(map(str, self.num_1))
-        list_str_2 = list(map(str, self.num_2))
+        list_str_1 = list(map(str, self.str_1))
+        list_str_2 = list(map(str, self.str_2))
         list_str_1.insert(0, "$")
         list_str_2.insert(0, "$")
 
@@ -98,11 +100,11 @@ class StatLi:
             for x in range(len(list_str_1) - 1):
                 list_num[0] = list_leven[y + 1][x] + 1
                 list_num[1] = list_leven[y][x + 1] + 1
-                if self.num_2[y] == self.num_1[x]: list_num[2] = list_leven[y][x]
+                if str_2[y] == str_1[x]: list_num[2] = list_leven[y][x]
                 else: list_num[2] = list_leven[y][x] + 1
                 list_leven[y + 1][x + 1] = min(list_num)
         
-        leven_data = pd.DataFrame(data=list_leven, columns=list_str_1, index=list_str_2)
+        leven_data = pd.DataFrame(data = list_leven, columns = list_str_1, index = list_str_2)
         #結果をreturn 距離、表
         return list_leven[len(list_str_2)-1][len(list_str_1) - 1], leven_data
 
@@ -113,9 +115,7 @@ class StatLi:
         if type(num) is not int: return 0 #入力された値が整数ではなかった場合0をreturn
         else:
                 #numが1になるまで以下の操作を繰り返す
-            while 1:
-                if num == 1: break #1になった場合break
-                backNumber = num #数式を表示するためにひとつ前のnumの値を格納
+            while 1 < num:
                 if num % 2 == 1:
                     num = num * 3 + 1 #numが奇数の場合、numを3倍し1を足す
                 if num % 2 == 0:
@@ -124,4 +124,30 @@ class StatLi:
         #試行回数をreturn
         return counter
 
-                    
+    def monte(self):
+        x = 0 #x軸
+        y = 0 #y軸
+        pai = 0.0 #実際に求めた円周率の近似値を格納するための変数
+        a = 0 #円の中に点が描画されたときにカウントを1する
+        i = 0 #num回繰り返すための変数
+        num = self.num_1
+        if type(num) is not int: return 0
+        else:
+            while i < num:
+                x = rd.uniform(-1, 1) #-1から1までのdouble型乱数を生成
+                y = rd.uniform(-1, 1) #xと同じ操作
+                if x**2 + y**2 <= 1:
+                    a += 1
+                    plt.scatter(x, y, color = "blue") #1以下だった場合、円の中と判定し青点を描画
+                else:
+                    plt.scatter(x, y, color = "red") #1以上だった場合、円の外と判定し赤点を描画
+                i += 1 #num回繰り返す
+            pai = 4 * a / num #円周率近似値を求めるための公式
+            #点の合計と実際に求めた円周率の近似値をreturn
+            return num, pai
+            #綺麗に円を描画するための処理
+            plt.xlim(-1, 1)
+            plt.ylim(-1, 1)
+            plt.axis('square') 
+            plt.show()
+
