@@ -11,48 +11,45 @@ import random as rd
 from collections import Counter
 from fractions import Fraction
 
-def first():
-	print("tlibへようこそ。\nインポートする際に時間がかかります。\n\nインポート方法\nimport tlib\n\n関数使用方法\ntlib.関数名\n")
-
 #helps
 def help():
-	list_function = ["1: primeNum()",
+	list_function = ["1: prime_num()",
 		"2: sort()",
-		"3: unSort()",
-		"4: singleHist()",
-		"5: doubleHist()",
+		"3: un_sort()",
+		"4: single_hist()",
+		"5: double_hist()",
 		"6: plot()",
-		"7: singleSt()",
-		"8: doubleSt()",
-		"9: desData()",
+		"7: single_stat()",
+		"8: double_stat()",
+		"9: des_data()",
 		"10: table()",
-		"11: diceAllPat()",
-		"12: doubleDiceSum()",
-		"13: doubleDiceMult()",
+		"11: dice_all_pat()",
+		"12: double_dice_sum()",
+		"13: double_dice_mult()",
 		"14: fraction()",
 		"15: leven()",
 		"16: collatz()",
 		"17: monte()",
-		"18: birthDay()"]
+		"18: birthday()"]
 
-	list_info = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
+	list_info = {1:"prime_num(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
 		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
-		3:"unSort(リスト): 指定されたリストを降順に並べ替え。", 
-		4:"singleHist(リスト): 指定されたリストのヒストグラムを表示。",
-		5:"doubleHist(リスト1,リスト2): 指定された二つのリストのヒストグラムを表示。",
+		3:"un_sort(リスト): 指定されたリストを降順に並べ替え。", 
+		4:"single_hist(リスト): 指定されたリストのヒストグラムを表示。",
+		5:"double_hist(リスト1,リスト2): 指定された二つのリストのヒストグラムを表示。",
 		6:"plot(リスト1, リスト2): 指定された二つのリストの散布図をプロット。", 
-		7:"singleSt(リスト): 指定されたリストの要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示。",
-		8:"doubleSt(リスト1, リスト2): 指定された二つのリストの要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示し、二つのリストの共分散、相関係数、回帰係数を表示。",
-		9:"desData(リスト): 指定されたリストのデータ数(count)、平均(mean)、標準偏差(std)、最小値(min)、第一四分位点(25%)、第二四分位点(50%)、第三四分位点(75%)、最大値(max)、データ型(dtype)を出力。",
+		7:"single_stat(リスト): 指定されたリストの要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示。",
+		8:"double_stat(リスト1, リスト2): 指定された二つのリストの要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示し、二つのリストの共分散、相関係数、回帰係数を表示。",
+		9:"des_data(リスト): 指定されたリストのデータ数(count)、平均(mean)、標準偏差(std)、最小値(min)、第一四分位点(25%)、第二四分位点(50%)、第三四分位点(75%)、最大値(max)、データ型(dtype)を出力。",
 		10:"table(リスト): 指定されたリストの度数分布表を表示。左側に階級値、右側に頻度。",
-		11:"diceAllPat(): 二つのさいころの全パターンを表示。",
-		12:"doubleDiceSum(): 二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
-		13:"doubleDiceMult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
+		11:"dice_all_pat(): 二つのさいころの全パターンを表示。",
+		12:"double_dice_sum(): 二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
+		13:"double_dice_mult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
 		14:"fraction(整数1,整数2): 整数1/整数2を既約分数で表示。",
 		15:"leven(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。",
 		16:"collatz(整数): 指定された整数をコラッツ予想の法則に則って計算する。",
 		17:"monte(整数): 指定された整数個の点を用いてモンテカルロ法から円周率の近似値を求める。",
-		18:"birthDay(整数1, 整数2, 整数3): 整数1に西暦、整数2に誕生月、整数3に日にちから誕生日の曜日を求める。"}
+		18:"birthday(整数1, 整数2, 整数3): 整数1に西暦、整数2に誕生月、整数3に日にちから誕生日の曜日を求める。"}
 	
 	while 1:
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
@@ -67,7 +64,7 @@ def help():
 		break
 
 #素数関連　エラトステネスの篩を用いた素数洗い出し
-def primeNum(num):
+def prime_num(num):
 	if type(num) is not int:
 		print("ERROR 整数を入力してください。")
 	else:
@@ -100,12 +97,12 @@ def sort(list):
 	print(np.sort(list_srt))
 	
 #リストソート(降順)
-def unSort(list):
+def un_sort(list):
 	list_srt = copy.copy(list)
 	print(np.sort(list_srt)[::-1])
 
 #データ数が多い場合使用するとよい
-def desData(list):
+def des_data(list):
 	print(pd.Series(list).describe())
 
 #度数分布表を表示
@@ -113,12 +110,12 @@ def table(list):
 	print(pd.Series(list).value_counts())
 
 #ヒストグラムを表示
-def singleHist(list):
+def single_hist(list):
 	plt.hist(list)
 	plt.show()
 
 #ヒストグラムを二つ表示
-def doubleHist(list_1,list_2):	
+def double_hist(list_1,list_2):	
 	plt.subplot(2, 2, 1)
 	plt.hist(list_1)
 	plt.title("List_1")
@@ -135,14 +132,14 @@ def plot(list_1, list_2):
 	plt.show()
 
 #さいころ全パターン
-def diceAllPat():
+def dice_all_pat():
 	for i in range(1, 7):
 		for j in range(1, 7):
 			print(i, "+", j, "= ", i+j)
 			if j == 6: print("")
 
 #足し算パターン
-def doubleDiceSum():
+def double_dice_sum():
 	dice = []
 	for i in range(1, 7):
 		for j in range(1, 7):
@@ -150,7 +147,7 @@ def doubleDiceSum():
 	print(pd.Series(dice).value_counts(sort=False))
 
 #掛け算パターン
-def doubleDiceMult():
+def double_dice_mult():
 	dice = []
 	for i in range(1, 7):
 		for j in range(1, 7):
@@ -256,7 +253,7 @@ def monte(num):
 		plt.show() #グラフ表示
 
 #誕生日の曜日を求める
-def birthDay(y, m, d):
+def birthday(y, m, d):
 	yDiv = y % 100
 	#返り値に対応した曜日を格納したリスト
 	week = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
@@ -266,7 +263,7 @@ def birthDay(y, m, d):
 
 		
 #関数をたたきまくった代物
-def singleSt(list):
+def single_stat(list):
 	#値渡し回避
 	list_copy = copy.copy(list)
 	data = []
@@ -297,7 +294,7 @@ def singleSt(list):
 
 
 #こっちは統計の勉強用に作成したもので、numpyの関数は使っていません。ほんとは少しだけ使いました
-def doubleSt(x, y):
+def double_stat(x, y):
 	#flag
 	flag = 0
 	#値渡し回避
@@ -416,4 +413,4 @@ def doubleSt(x, y):
 
 #main tlibについての説明
 if __name__ == '__main__':
-	first()
+	print("tlibへようこそ。\nインポートする際に時間がかかります。\n\nインポート方法\nimport tlib\n\n関数使用方法\ntlib.関数名\n")

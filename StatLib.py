@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
-import math
 import random as rd
-from collections import Counter
 from fractions import Fraction
 
 class StatLib:
