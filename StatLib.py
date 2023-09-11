@@ -10,12 +10,21 @@ from fractions import Fraction
 class StatLib:
 
     #コンストラクター
-    def __init__(self, num_1, num_2): 
+    def __init__(self): 
+        self.num_1 = 0
+        self.num_2 = 0
+    
+    #値一つ用のset関数
+    def setSingle(self, num_1):
+        self.num_1 = num_1
+    
+    #値二つ用のset関数
+    def setDouble(self, num_1, num_2):
         self.num_1 = num_1
         self.num_2 = num_2
     
     #エラトステネスの篩を用いた素数洗い出し
-    def primeNum(self):
+    def primeNum(self) -> list:
         if type(self.num_1) is not int: return "ERROR" #値が整数以外ならERRORを返す
         else:
             list_prime = [] #素数を格納するためのリスト
@@ -35,21 +44,22 @@ class StatLib:
             return len(list_prime), list_prime_str
 
     #昇順リストソート
-    def sort(self):
+    def sort(self) -> list:
         list_str = copy.copy(self.num_1)
         return np.sort(list_str)
     
     #降順リストソート
-    def unSort(self):
+    def unSort(self) -> list:
         list_str = copy.copy(self.num_1)
         return np.sort(list_str)[::-1]
     
     #与えられたデータを分析する。データ数が多い場合に使用するとよい
-    def desData(self):
+    def desData(self) -> list:
+        #return [count, mean, std, min, 25%, 50%, 75%, max]
         return pd.Series(self.num_1).describe()
 
     #度数分布表を表示
-    def table(self):
+    def table(self) -> list:
         return pd.Series(self.num_1).value_counts()
 
     #ヒストグラムを表示
@@ -81,12 +91,14 @@ class StatLib:
             return Fraction(self.num_1, self.num_2)
 
     #編集距離を求める
-    def leven(self):
+    def leven(self) -> list:
         str_1 = self.num_1
         str_2 = self.num_2
+        if(type(str_1) is not str) or (type(str_2) is not str): 
+            return 0
         list_num = [0] * 3
-        list_str_1 = list(map(str, self.str_1))
-        list_str_2 = list(map(str, self.str_2))
+        list_str_1 = list(map(str, str_1))
+        list_str_2 = list(map(str, str_2))
         list_str_1.insert(0, "$")
         list_str_2.insert(0, "$")
 
@@ -109,7 +121,7 @@ class StatLib:
         return list_leven[len(list_str_2)-1][len(list_str_1) - 1], leven_data
 
         #コラッツ予想
-    def collatz(self):
+    def collatz(self) -> int:
         counter = 0 #1になるまでの試行回数
         num = self.num_1
         if type(num) is not int: return 0 #入力された値が整数ではなかった場合0をreturn
@@ -124,7 +136,7 @@ class StatLib:
         #試行回数をreturn
         return counter
 
-    def monte(self):
+    def monte(self) -> tuple:
         x = 0 #x軸
         y = 0 #y軸
         pai = 0.0 #実際に求めた円周率の近似値を格納するための変数
@@ -145,9 +157,4 @@ class StatLib:
             pai = 4 * a / num #円周率近似値を求めるための公式
             #点の合計と実際に求めた円周率の近似値をreturn
             return num, pai
-            #綺麗に円を描画するための処理
-            plt.xlim(-1, 1)
-            plt.ylim(-1, 1)
-            plt.axis('square') 
-            plt.show()
 
