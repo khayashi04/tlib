@@ -32,7 +32,8 @@ def help():
 		"14: fraction()",
 		"15: leven()",
 		"16: collatz()",
-		"17: monte()"]
+		"17: monte()",
+		"18: birthDay()"]
 
 	list_info = {1:"primeNum(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
 		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
@@ -50,7 +51,8 @@ def help():
 		14:"fraction(整数1,整数2): 整数1/整数2を既約分数で表示。",
 		15:"leven(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。",
 		16:"collatz(整数): 指定された整数をコラッツ予想の法則に則って計算する。",
-		17:"monte(整数): 指定された整数個の点を用いてモンテカルロ法から円周率の近似値を求める。"}
+		17:"monte(整数): 指定された整数個の点を用いてモンテカルロ法から円周率の近似値を求める。",
+		18:"birthDay(整数1, 整数2, 整数3): 整数1に西暦、整数2に誕生月、整数3に日にちから誕生日の曜日を求める。"}
 	
 	while 1:
 		print("表示したいHelpの番号を選択してください。0を入力で終了")
@@ -246,12 +248,22 @@ def monte(num):
 			else:
 				plt.scatter(x, y, color = "red") #1以上だった場合、円の外と判定し赤点を打つ
 			i += 1 #num回繰り返す
-		pai = 4 * a / num #PI = 4 * a / (a + b)より
+		pai = 4 * a / num 
 		print("点の合計数: ", num, "\n実際に求めた円周率: ", pai) #実際に求めた円周率を表示
 		plt.xlim(-1, 1) #綺麗な円を描くためにグラフの表示範囲を変更
 		plt.ylim(-1, 1)
 		plt.axis('square') #グラフの形を正方形に変更
 		plt.show() #グラフ表示
+
+#誕生日の曜日を求める
+def birthDay(y, m, d):
+	yDiv = y % 100
+	#返り値に対応した曜日を格納したリスト
+	week = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+	#ツェラーの公式
+	dayOfWeek = (d + math.floor(26 * (m + 1) / 10) + yDiv + math.floor(yDiv / 4) - 2 * math.floor(y / 100) + math.floor(y / 400)) % 7
+	print(week[dayOfWeek])
+
 		
 #関数をたたきまくった代物
 def singleSt(list):
