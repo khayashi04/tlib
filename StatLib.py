@@ -7,7 +7,7 @@ import random as rd
 from collections import Counter
 from fractions import Fraction
 
-class StatLi:
+class StatLib:
 
     #コンストラクター
     def __init__(self, num_1, num_2): 
