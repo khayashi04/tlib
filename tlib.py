@@ -1,6 +1,6 @@
 '''
 統計ライブラリtlib
-作成者：K.Hayashi
+作成者: K.Hayashi
 '''
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,407 +11,537 @@ import random as rd
 from collections import Counter
 from fractions import Fraction
 
-#helps
 
-def help():
-	list_function = ["1: prime_num()",
-		"2: sort()",
-		"3: un_sort()",
-		"4: single_hist()",
-		"5: double_hist()",
-		"6: plot()",
-		"7: single_stat()",
-		"8: double_stat()",
-		"9: des_data()",
-		"10: table()",
-		"11: dice_all_pat()",
-		"12: double_dice_sum()",
-		"13: double_dice_mult()",
-		"14: fraction()",
-		"15: leven()",
-		"16: collatz()",
-		"17: monte()",
-		"18: birthday()"]
+# helps
+def help_tlib():
+    list_function = ["prime_num(num)",
+                     "sort(list)",
+                     "un_sort(list)",
+                     "single_hist(list)",
+                     "double_hist(list_1, list_2)",
+                     "plot(list_1, list_2)",
+                     "single_stat(list)",
+                     "double_stat(list_1, list_2)",
+                     "des_data(list)",
+                     "table(list)",
+                     "dice_all_pat()",
+                     "double_dice_sum()",
+                     "double_dice_mult()",
+                     "fraction(num_1, num_2)",
+                     "leven(str_1, str_2)",
+                     "collatz(num)",
+                     "monte_pi(num)",
+                     "birthday(yyyy, m, d)"]
 
-	list_info = {1:"prime_num(整数): 指定された整数までのすべての素数を表示し、素数の数を表示。", 
-		2:"sort(リスト): 指定されたリストを昇順に並べ替え。", 
-		3:"un_sort(リスト): 指定されたリストを降順に並べ替え。", 
-		4:"single_hist(リスト): 指定されたリストのヒストグラムを表示。",
-		5:"double_hist(リスト1,リスト2): 指定された二つのリストのヒストグラムを表示。",
-		6:"plot(リスト1, リスト2): 指定された二つのリストの散布図をプロット。", 
-		7:"single_stat(リスト): 指定されたリストの要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示。",
-		8:"double_stat(リスト1, リスト2): 指定された二つのリストの要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示し、二つのリストの共分散、相関係数、回帰係数を表示。",
-		9:"des_data(リスト): 指定されたリストのデータ数(count)、平均(mean)、標準偏差(std)、最小値(min)、第一四分位点(25%)、第二四分位点(50%)、第三四分位点(75%)、最大値(max)、データ型(dtype)を出力。",
-		10:"table(リスト): 指定されたリストの度数分布表を表示。左側に階級値、右側に頻度。",
-		11:"dice_all_pat(): 二つのさいころの全パターンを表示。",
-		12:"double_dice_sum(): 二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
-		13:"double_dice_mult(): 二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
-		14:"fraction(整数1,整数2): 整数1/整数2を既約分数で表示。",
-		15:"leven(文字列1,文字列2): 文字列1と文字列2のレーヴェンシュタイン距離を求める。",
-		16:"collatz(整数): 指定された整数をコラッツ予想の法則に則って計算する。",
-		17:"monte(整数): 指定された整数個の点を用いてモンテカルロ法から円周率の近似値を求める。",
-		18:"birthday(整数1, 整数2, 整数3): 整数1に西暦、整数2に誕生月、整数3に日にちから誕生日の曜日を求める。"}
-	
-	while 1:
-		print("表示したいHelpの番号を選択してください。0を入力で終了")
-		for i in range(len(list_function)):
-			print(list_function[i])
-		listNum = int(input())
-		if listNum > len(list_function) or listNum < 0: 
-			print("\nError: 1 から", len(list_function), "までの数字で入力してください。\n")
-			break
-		if listNum == 0: break
-		print("\n",list_info[listNum], "\n")
-		break
+    list_info = ["numまでのすべての素数を表示し、素数の数を表示。",
+                 "listを昇順に並べ替え。",
+                 "listを降順に並べ替え。",
+                 "listのヒストグラムを表示。",
+                 "list_1とlist_2のヒストグラムを表示。",
+                 "list_1とlist_2の散布図をプロット。",
+                 "listの要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示。",
+                 "list_1とlist_2の要素数、平均、中央値、最頻値、最大値、最小値、範囲、二乗平均、平均偏差、分散、標準偏差を表示し、list_1とlist_2の共分散、相関係数、回帰係数を表示。",
+                 "listのデータ数(count)、平均(mean)、標準偏差(std)、最小値(min)、第一四分位点(25%)、第二四分位点(50%)、第三四分位点(75%)、最大値(max)、データ型(dtype)を出力。",
+                 "listの度数分布表を表示。左側に階級値、右側に頻度。",
+                 "二つのさいころの全パターンを表示。",
+                 "二つのさいころの目を足したものを度数分布表に表示。左側に階級値、右側に頻度。",
+                 "二つのさいころの目を掛けたものを度数分布表に表示。左側に階級値、右側に頻度。",
+                 "num_1 / num_2を既約分数で表示。",
+                 "str_1とstr_2のレーヴェンシュタイン距離を求める。",
+                 "numをコラッツ予想の法則に則って計算する。",
+                 "num個の点を用いてモンテカルロ法から円周率の近似値を求める。",
+                 "生年月日（yyyy / m / d）の曜日を求める。"]
 
-#素数関連　エラトステネスの篩を用いた素数洗い出し
+    if len(list_function) != len(list_info):
+        raise Exception("開発者はバカ")
+
+    list_range = len(list_function)
+    print(f"1 から {list_range} の表示したいHelpの番号を挿入してください。")
+    for i in range(list_range):
+        print(f"{i + 1}: {list_function[i]}")
+    list_num = input()
+    if type(list_num) != int or list_num > list_range or list_num <= 0:
+        print(f"\nError: 1 から{list_range}までの数字で挿入してください。\n")
+
+    print(
+        f"\n{list_num}: {list_function[list_num - 1]}: {list_info[list_num - 1]}\n")
+
+
+# エラトステネスの篩を用いた素数洗い出し
 def prime_num(num):
-	if type(num) is not int:
-		print("ERROR 整数を入力してください。")
-	else:
-		#素数を格納するためのリスト	
-		list_prime = []
-		#2から入力された値までのすべての数を格納
-		list_num = [i for i in range(2,num + 1)]
+    # numが2以上の自然数の場合Error
+    if type(num) != int or num <= 1:
+        raise Exception("2以上の自然数を挿入してください")
 
-		#list_numの0番目が入力された値の平方根以下になるまでloop
-		while list_num[0] <= int(np.sqrt(num)):
-			#list_primeにlist_numの0番目を追加
-			list_prime.append(list_num[0]) 
-			#headにlist_numの0番目を格納
-			head = list_num[0] 
-			#素数判定
-			list_num = [i for i in list_num if i % head != 0]
+    list_prime = []  # 素数を格納するためのリスト
 
-		#list_numに残った数を素数としてlist_primeに格納
-		list_prime.extend(list_num) 
-		#素数をプリント
-		list_prime_str = [str(a) for a in list_prime]
-		list_prime_str = ' '.join(list_prime_str)
-		print(list_prime_str,"\n")
-		#素数の数をプリント
-		print("素数の合計: ", len(list_prime), "\n")
+    # 2から入力された値までのすべての数を格納
+    list_num = [i for i in range(2, num + 1)]
 
-#リストソート(昇順)
-def sort(list):
-	list_srt = copy.copy(list)
-	print(np.sort(list_srt))
-	
-#リストソート(降順)
-def un_sort(list):
-	list_srt = copy.copy(list)
-	print(np.sort(list_srt)[::-1])
+    # list_numの0番目が入力された値の平方根以下になるまでloop
+    while list_num[0] <= int(np.sqrt(num)):
+        # list_primeにlist_numの0番目を追加
+        list_prime.append(list_num[0])
 
-#データ数が多い場合使用するとよい
-def des_data(list):
-	print(pd.Series(list).describe())
+        # headにlist_numの0番目を格納
+        list_head = list_num[0]
 
-#度数分布表を表示
-def table(list):
-	print(pd.Series(list).value_counts())
+        # 素数判定
+        list_num = [i for i in list_num if i % list_head != 0]
 
-#ヒストグラムを表示
-def single_hist(list):
-	plt.hist(list)
-	plt.show()
+    # list_numに残った数を素数としてlist_primeに格納
+    list_prime.extend(list_num)
 
-#ヒストグラムを二つ表示
-def double_hist(list_1,list_2):	
-	plt.subplot(2, 2, 1)
-	plt.hist(list_1)
-	plt.title("List_1")
-	plt.subplot(2, 2, 4)
-	plt.hist(list_2)
-	plt.title("List_2")
-	plt.show()
+    # 素数を表示
+    list_prime_str = [str(a) for a in list_prime]
+    list_prime_str = ' '.join(list_prime_str)
+    print(list_prime_str, "\n")
 
-#散布図を描画。値渡しは回避済み
-def plot(list_1, list_2):	
-	plt.scatter(list_1, list_2)
-	plt.xlabel("List_1")
-	plt.ylabel("List_2")
-	plt.show()
+    # 素数の数を表示
+    print(f"素数の合計: {len(list_prime)}\n")
 
-#さいころ全パターン
+
+# リストソート(昇順)
+def list_sort(list_1):
+    list_srt = copy.copy(list_1)
+    print(np.sort(list_srt))
+
+
+# リストソート(降順)
+def list_unsort(list_1):
+    list_srt = copy.copy(list_1)
+    print(np.sort(list_srt)[::-1])
+
+
+# データ数が多い場合使用するとよい
+def des_data(list_1):
+    print(pd.Series(list_1).describe())
+
+
+# 度数分布表を表示
+def table(list_1):
+    print(pd.Series(list_1).value_counts())
+
+
+# ヒストグラムを表示
+def single_hist(list_1):
+    plt.hist(list_1)
+    plt.show()
+
+
+# ヒストグラムを二つ表示
+def double_hist(list_1, list_2):
+    plt.subplot(2, 2, 1)
+    plt.hist(list_1)
+    plt.title("List_1")
+    plt.subplot(2, 2, 4)
+    plt.hist(list_2)
+    plt.title("List_2")
+    plt.show()
+
+
+# 散布図を描画。値渡しは回避済み
+def plot(list_1, list_2):
+    # list_1とlist_2のサイズが異なる場合Exception
+    if (len(list_1) != len(list_2)):
+        raise Exception("list_1とlist_2のサイズが異なります。等しくしてください")
+
+    plt.scatter(list_1, list_2)
+    plt.xlabel("List_1")
+    plt.ylabel("List_2")
+    plt.show()
+
+
+# さいころ全パターン
 def dice_all_pat():
-	for i in range(1, 7):
-		for j in range(1, 7):
-			print(i, "+", j, "= ", i+j)
-			if j == 6: print("")
+    for i in range(1, 7):
+        for j in range(1, 7):
+            print(f"{i} + {j} = {i+j}")
+            if j == 6:
+                print("")
 
-#足し算パターン
+
+# 足し算パターン
 def double_dice_sum():
-	dice = []
-	for i in range(1, 7):
-		for j in range(1, 7):
-			dice.append(i + j)
-	print(pd.Series(dice).value_counts(sort=False))
+    dice = []
+    for i in range(1, 7):
+        for j in range(1, 7):
+            dice.append(i + j)
+    print(pd.Series(dice).value_counts(sort=False))
 
-#掛け算パターン
+
+# 掛け算パターン
 def double_dice_mult():
-	dice = []
-	for i in range(1, 7):
-		for j in range(1, 7):
-			dice.append(i * j)
-	print(pd.Series(dice).value_counts(sort=False))
+    dice = []
+    for i in range(1, 7):
+        for j in range(1, 7):
+            dice.append(i * j)
+    print(pd.Series(dice).value_counts(sort=False))
 
-#既約分数を表示
+
+# 既約分数を表示
 def fraction(num_1, num_2):
-	if (type(num_1) is not int) or (type(num_2) is not int):
-		print("ERROR 整数を入力してください。")
-	else:
-		print(Fraction(num_1, num_2))
+    # 0で割ろうとした場合Exception
+    if (num_2 == 0):
+        raise Exception("0で割ることはできません。")
+
+    print(Fraction(num_1, num_2))
 
 
-#レーヴェンシュタイン距離を求める
-def leven(str_1,str_2):
-	list_num = [0]*3
-	list_str_1 = list(map(str, str_1))
-	list_str_2 = list(map(str, str_2))
-	list_str_1.insert(0, "$")
-	list_str_2.insert(0, "$")
+# レーヴェンシュタイン距離を求める
+def leven(str_1, str_2):
+    # str_1かstr_2がstr型以外の場合exit
+    if (type(str_1) != str or type(str_2) != str):
+        raise Exception("str型の値を挿入してください。")
 
-	#表で出力するため一文字ずつleven_listに格納
-	leven_list =[[i for i in range(len(list_str_1))] for j in range(len(list_str_2))]
-	for i in range(len(list_str_2)): 
-		leven_list[i][0] = i
+    list_num = [0]*3
+    list_str_1 = list(map(str, str_1))
+    list_str_2 = list(map(str, str_2))
+    list_str_1.insert(0, "$")
+    list_str_2.insert(0, "$")
 
-	#以下計算するところ。どういう計算するかはWikipediaまで
-	for y in range(len(list_str_2) - 1):
-		for x in range(len(list_str_1) - 1):
-			list_num[0] = leven_list[y + 1][x] + 1
-			list_num[1] = leven_list[y][x + 1] + 1
-			if str_2[y] == str_1[x]: 
-				list_num[2] = leven_list[y][x]
-			else: 
-				list_num[2] = leven_list[y][x] + 1
-			leven_list[y + 1][x + 1] = min(list_num)
+    # 表で出力するため一文字ずつleven_listに格納
+    leven_list = [[i for i in range(len(list_str_1))]
+                  for j in range(len(list_str_2))]
+    for i in range(len(list_str_2)):
+        leven_list[i][0] = i
 
-	leven_data = pd.DataFrame(data=leven_list,columns=list_str_1,index=list_str_2)
-	print(leven_data,"\n\n","距離: ",leven_list[len(list_str_2)-1][len(list_str_1) - 1])
+    # 以下計算するところ。どういう計算するかはWikipediaまで
+    for y in range(len(list_str_2) - 1):
+        for x in range(len(list_str_1) - 1):
+            list_num[0] = leven_list[y + 1][x] + 1
+            list_num[1] = leven_list[y][x + 1] + 1
+            if str_2[y] == str_1[x]:
+                list_num[2] = leven_list[y][x]
+            else:
+                list_num[2] = leven_list[y][x] + 1
+            leven_list[y + 1][x + 1] = min(list_num)
 
-#各データに対応する名前
-LIST_NAME = ["データ数: ","平均:     ", "中央値:   ", "最頻値:   ", "最大値:   ", "最小値:   ",
- "範囲:     ", "二乗平均: ", "平均偏差: ", "分散:     ", "標準偏差: "]
+    leven_data = pd.DataFrame(
+        data=leven_list, columns=list_str_1, index=list_str_2)
+    print(
+        f"{leven_data}\n\n距離: {leven_list[len(list_str_2)-1][len(list_str_1) - 1]}")
 
-#コラッツ予想
-def collatz(num):
-	#1になるまでの施行回数を表示
-	flag = 0
-	#数式用
-	backNumber = 0
-	if type(num) is not int:
-		print("ERROR 整数を入力してください。")
-	else:
-		while 1:
-			#numが1になるまで以下の操作を繰り返す。1になった場合breakする
-			if num == 1: 
-				break
-			#式を表示するためにひとつ前のnumを格納
-			backNumber = num
-			#numが奇数だった場合
-			if num % 2 == 1:
-				#numを3倍し1を足す
-				num = num * 3 + 1
-				#数式を表示			
-				print(int(backNumber), "× 3 + 1 =",int(num))
 
-			#numが偶数だった場合
-			if num % 2 == 0:	
-				#numを2で割る
-				num = num / 2
-				#数式を表示			
-				print(int(backNumber), "÷ 2 =",int(num))
-			#試行回数カウント
-			flag += 1
+# コラッツ予想
+def collatz(collatz_num):
+    # collatz_numが1以上の自然数以外の場合exit
+    if type(collatz_num) != int or collatz_num == 0:
+        raise Exception("1以上の自然数を挿入してください。")
+    
+    collatz_counter = 0  # 1になるまでの施行回数を表示
+    back_collatz_num = 0  # ひとつ前の数字を格納
 
-		#試行回数を表示
-		print("\n試行回数: ", flag)
+    while 1:
+        # collatz_numが1になるまで以下の操作を繰り返す。1になった場合breakする
+        if collatz_num == 1:
+            break
 
-def monte(num):
-	x = 0 #x軸
-	y = 0 #y軸
-	pai = 0 #実際に求めた円周率を格納
-	a = 0 #
-	i = 0
-	if type(num) is not int:
-		print("ERROR 整数を入力してください。")
-	else:
-		while i < num:
-			x = rd.uniform(-1, 1) #-1から1までの小数点乱数を生成
-			y = rd.uniform(-1, 1) #xと同じ操作
-			if x**2 + y**2 <= 1: #円の公式より中心点から1以下の場合以下の処理を行う
-				a += 1
-				plt.scatter(x, y, color = "blue") #1以下だった場合、円の中と判定し青点を打つ
-			else:
-				plt.scatter(x, y, color = "red") #1以上だった場合、円の外と判定し赤点を打つ
-			i += 1 #num回繰り返す
-		pai = 4 * a / num 
-		print("点の合計数: ", num, "\n実際に求めた円周率: ", pai) #実際に求めた円周率を表示
-		plt.xlim(-1, 1) #綺麗な円を描くためにグラフの表示範囲を変更
-		plt.ylim(-1, 1)
-		plt.axis('square') #グラフの形を正方形に変更
-		plt.show() #グラフ表示
+        # 式を表示するためにひとつ前のnumを格納
+        back_collatz_num = collatz_num
 
-#誕生日の曜日を求める
+        # numが奇数だった場合
+        if collatz_num % 2 == 1:
+            # numを3倍し1を足す
+            collatz_num = collatz_num * 3 + 1
+
+            # 数式を表示
+            print(f"{int(back_collatz_num)} × 3 + 1 = {int(collatz_num)}")
+
+        # numが偶数だった場合
+        if collatz_num % 2 == 0:
+            # numを2で割る
+            collatz_num = collatz_num / 2
+
+            # 数式を表示
+            print(f"{int(back_collatz_num)} ÷ 2 = {int(collatz_num)}")
+
+        # 試行回数カウント
+        collatz_counter += 1
+
+    # 試行回数を表示
+    print(f"\n試行回数: {collatz_counter}")
+
+
+# モンテカルロ法を用いて円周率の近似値を求める
+def monte_pi(all_point):
+    # all_pointが1以上の自然数以外の場合exit
+    if type(all_point) != int or all_point <= 0:
+        raise Exception("1以上の自然数を挿入してください")
+
+    x = 0  # x軸
+    y = 0  # y軸
+    pai = 0  # 実際に求めた円周率の近似値を格納
+    in_circle_point = 0  # 円の中に描画された点
+    point_counter = 0  # カウンター
+
+    # point_counterがall_pointを超えたら終了
+    while point_counter < all_point:
+        # xとyに-1から1までの小数点乱数を生成し、格納
+        x = rd.uniform(-1, 1)
+        y = rd.uniform(-1, 1)
+
+        # 円の公式より中心点から1以下の場合以下の処理を行う
+        if x**2 + y**2 <= 1:
+            in_circle_point += 1
+
+            # 1以下だった場合、円の中と判定し青点を打つ
+            plt.scatter(x, y, color="blue")
+        else:
+            # 1以上だった場合、円の外と判定し赤点を打つ
+            plt.scatter(x, y, color="red")
+
+        # カウンターにプラス1
+        point_counter += 1
+
+    # 円周率を円の中に入った点と全ての点を用いて計算
+    pai = 4 * in_circle_point / all_point
+
+    # 実際に求めた円周率を表示
+    print(f"点の合計数: {all_point}\n実際に求めた円周率: {pai}")
+
+    # 綺麗な円を描くためにグラフの表示範囲を変更
+    plt.xlim(-1, 1)
+    plt.ylim(-1, 1)
+
+    # グラフの形を正方形に変更
+    plt.axis('square')
+    plt.show()
+
+
+# 誕生日の曜日を求める
 def birthday(y, m, d):
-	yDiv = y % 100
-	#返り値に対応した曜日を格納したリスト
-	week = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-	#ツェラーの公式
-	dayOfWeek = (d + math.floor(26 * (m + 1) / 10) + yDiv + math.floor(yDiv / 4) - 2 * math.floor(y / 100) + math.floor(y / 400)) % 7
-	print(week[dayOfWeek])
-
-		
-#関数をたたきまくった代物
-def single_stat(list):
-	#値渡し回避
-	list_copy = copy.copy(list)
-	data = []
-	
-	#リストをソート
-	list_copy.sort
-	
-	#二乗平均を計算する際に使用
-	double_average = absolute = 0
-	
-	#格納作業
-	for i in range(len(list_copy)): 
-		double_average += list_copy[i] ** 2
-		absolute += abs(list_copy[i] - np.mean(list_copy))
-
-	#最頻値を計算
-	mode = Counter(list_copy).most_common(1)
-	data.extend([len(list_copy), round(np.mean(list_copy), 4), np.median(list_copy), 
-		mode[0][0], max(list_copy), min(list_copy), max(list_copy) - min(list_copy), 
-		round(double_average / len(list_copy), 4), round(absolute / len(list_copy), 4), round(np.var(list_copy), 4), 
-		round(np.std(list_copy), 4)])
-
-	#print作業
-	print("")
-	for i in range(len(LIST_NAME)):
-		print(LIST_NAME[i], data[i])
-	print("")
+    # y, m, dがint型以外の場合Exception
+    if(type(y) != int or type(m) != int or type(d) != int):
+        raise Exception("int型で挿入してください。")
+    
+    yDiv = y % 100
+    # 返り値に対応した曜日を格納したリスト
+    week = ["Saturday", "Sunday", "Monday",
+            "Tuesday", "Wednesday", "Thursday", "Friday"]
+    # ツェラーの公式
+    day_week = (d + math.floor(26 * (m + 1) / 10) + yDiv +
+                math.floor(yDiv / 4) - 2 * math.floor(y / 100) + math.floor(y / 400)) % 7
+    print(week[day_week])
 
 
-#こっちは統計の勉強用に作成したもので、numpyの関数は使っていません。ほんとは少しだけ使いました
-def double_stat(x, y):
-	#flag
-	flag = 0
-	#値渡し回避
-	list_copy_1 = copy.copy(x)
-	list_copy_2 = copy.copy(y)
-
-	#二つのリストの長さが異なった場合、ERROR文
-	if len(list_copy_1) != len(list_copy_2):
-		print("ERROR: リストの長さが異なります。")
-
-	#必要なものを宣言
-	list_multiplied = absolute_1 = absolute_2 = list_double_1 = list_double_2 = 0
-	data_1 = []
-	data_2 = []
-
-	#共分散を計算するために使用。リストソート前に計算する必要あり。
-	for i in range(len(list_copy_1)):
-		list_multiplied += list_copy_1[i] * list_copy_2[i]
-
-	#二つのデータを昇順ソート。
-	list_copy_1.sort()
-	list_copy_2.sort()
-
-	#平均を計算
-	average_1 = sum(list_copy_1) / len(list_copy_1)
-	average_2 = sum(list_copy_2) / len(list_copy_2)
-
-	#最大値を計算
-	max_1 = list_copy_1[len(list_copy_1) - 1]
-	max_2 = list_copy_2[len(list_copy_2) - 1]
-
-	#最小値を計算
-	min_1 = list_copy_1[0]
-	min_2 = list_copy_2[0]
-
-	#範囲（レンジ）を計算		
-	renge_1 = max_1 - min_1
-	renge_2 = max_2 - min_2
-
-	for i in range(len(list_copy_1)):
-	#平均偏差を計算するためにi番目の要素から要素の平均を減算し、その絶対値を取り、すべてを加算する
-		absolute_1 += abs(list_copy_1[i] - average_1)
-		absolute_2 += abs(list_copy_2[i] - average_2)
-
-	#二乗平均を計算するためにi番目の要素を二乗し、すべてを加算する
-		list_double_1 += list_copy_1[i] ** 2	
-		list_double_2 += list_copy_2[i] ** 2	
-
-	#平均偏差を計算
-	average_deviation_1 = absolute_1 / len(list_copy_1)
-	average_deviation_2 = absolute_2 / len(list_copy_2)
-
-	#二乗平均を計算
-	double_average_1 = list_double_1 / len(list_copy_1)
-	double_average_2 = list_double_2 / len(list_copy_2)
-
-	#中央値を計算
-	if len(list_copy_1) % 2 == 0:
-		median_1 = (list_copy_1[int(np.floor(len(list_copy_1) / 2))] + list_copy_1[int(np.floor(len(list_copy_1) / 2 -1))]) / 2
-		median_2 = (list_copy_2[int(np.floor(len(list_copy_2) / 2))] + list_copy_2[int(np.floor(len(list_copy_2) / 2 -1))]) / 2
-	elif len(list_copy_1) % 2 == 1:
-		median_1 = list_copy_1[int(np.floor(len(list_copy_1) / 2))]
-		median_2 = list_copy_2[int(np.floor(len(list_copy_2) / 2))]
-
-	#最頻値を計算。
-	mode_1 = Counter(list_copy_1).most_common(1)
-	mode_2 = Counter(list_copy_2).most_common(1)
-
-	#分散を計算　二乗平均 - 平均**2
-	variance_1 = double_average_1 - (average_1 ** 2)
-	variance_2 = double_average_2 - (average_2 ** 2)
-
-	#標準偏差を計算
-	standard_deviation_1 = np.sqrt(variance_1)
-	standard_deviation_2 = np.sqrt(variance_2)
-
-	#共分散を計算 積のデータ/データ数 - xの平均 * yの平均
-	covariance = (list_multiplied / len(list_copy_1)) - (average_1 * average_2) 
-
-	#相関係数を計算。0だった場合、Error出力
-	if standard_deviation_1 == 0 or standard_deviation_2 == 0:
-		err = "ERROR: 0のため相関係数を計算できません。"
-		flag = 1
-	else:
-		#相関係数を計算
-		correlation_coefficient = covariance / standard_deviation_1 / standard_deviation_2
-		
-		#回帰係数を計算
-		a = covariance / variance_1
-		b = average_2 - (a * average_1)
+# single_statとdouble_statで使用するリスト
+LIST_NAME = ["データ数:　",
+             "平均:　　　",
+             "中央値:　　",
+             "最頻値:　　",
+             "最大値:　　",
+             "最小値:　　",
+             "範囲:　　　",
+             "二乗平均:　",
+             "平均偏差:　",
+             "分散:　　　",
+             "標準偏差:　"]
 
 
-	#すべての結果をリストに追加
-	data_1.extend([len(list_copy_1), round(average_1, 4), median_1, mode_1[0][0], 
-		max_1, min_1, renge_1, round(double_average_1, 4), round(average_deviation_1, 4), round(variance_1, 4), round(standard_deviation_1, 4)])
+# 関数をたたきまくった代物
+def single_stat(list_1):
+    # 値渡し回避
+    list_copy = copy.copy(list_1)
+    list_data = []
 
-	data_2.extend([len(list_copy_2), round(average_2, 4), median_2, mode_2[0][0], 
-		max_2, min_2, renge_2, round(double_average_2, 4), round(average_deviation_2, 4), round(variance_2, 4), round(standard_deviation_2, 4)])
+    # リストをソート
+    list_copy.sort
 
-	#結果を出力。
-	print("\ndate_1\n")
-	for i in range(len(data_1)):
-		print(LIST_NAME[i], data_1[i])
+    # リストのサイズを格納
+    list_range = len(list_copy)
 
-	print("\ndate_2\n")
-	for i in range(len(data_2)):
-		print(LIST_NAME[i], data_2[i])
+    # 二乗平均を計算する際に使用
+    double_average = 0
+    absolute = 0
 
-	print("\n\n共分散:   ", round(covariance, 4))
-	if flag != 0:
-		print(err)
-	else:
-		print("相関係数: ", round(correlation_coefficient, 4))
-		print("回帰係数: y = ax + bとするとき、\n a = ", round(a, 4), ", b = ", round(b, 4))
+    # 格納作業
+    for i in range(list_range):
+        double_average += list_copy[i] ** 2
+        absolute += abs(list_copy[i] - np.mean(list_copy))
+
+    # 最頻値を計算
+    mode = Counter(list_copy).most_common(1)
+
+    # 結果をlist_dataに格納
+    list_data.extend([list_range,
+                      round(np.mean(list_copy), 4),
+                      np.median(list_copy),
+                      mode[0][0],
+                      max(list_copy),
+                      min(list_copy),
+                      max(list_copy) - min(list_copy),
+                      round(double_average / list_range, 4),
+                      round(absolute / list_range, 4),
+                      round(np.var(list_copy), 4),
+                      round(np.std(list_copy), 4)])
+
+    # 結果を表示
+    print("")
+    for i in range(len(LIST_NAME)):
+        print(f"{LIST_NAME[i]}{list_data[i]}")
+    print("")
 
 
-#main tlibについての説明
+# こっちは統計の勉強用に作成したもので、numpyの関数は使っていません。ほんとは少しだけ使いました
+def double_stat(list_1, list_2):
+    # flag
+    flag = 0
+
+    # 値渡し回避
+    list_copy_1 = copy.copy(list_1)
+    list_copy_2 = copy.copy(list_2)
+
+    # list_1とlist_2のサイズが異なった場合exit
+    if len(list_copy_1) != len(list_copy_2):
+        print("Error: list_1とlist_2のサイズが異なります。等しくしてください")
+
+    # listのサイズを格納
+    list_range = len(list_copy_1)
+
+    # 必要なものを宣言
+    list_multiplied = 0
+    absolute_1 = 0
+    absolute_2 = 0
+    double_1 = 0
+    double_2 = 0
+    list_data_1 = []
+    list_data_2 = []
+
+    # 共分散を計算するために使用。リストソート前に計算する必要あり。
+    for i in range(list_range):
+        list_multiplied += list_copy_1[i] * list_copy_2[i]
+
+    # 二つのデータを昇順ソート。
+    list_copy_1.sort()
+    list_copy_2.sort()
+
+    # 平均を計算
+    average_1 = sum(list_copy_1) / list_range
+    average_2 = sum(list_copy_2) / list_range
+
+    # 最大値を計算
+    max_1 = list_copy_1[list_range - 1]
+    max_2 = list_copy_2[list_range - 1]
+
+    # 最小値を計算
+    min_1 = list_copy_1[0]
+    min_2 = list_copy_2[0]
+
+    # 範囲（レンジ）を計算
+    renge_1 = max_1 - min_1
+    renge_2 = max_2 - min_2
+
+    for i in range(list_range):
+        # 平均偏差を計算するためにi番目の要素から要素の平均を減算し、その絶対値を取り、すべてを加算する
+        absolute_1 += abs(list_copy_1[i] - average_1)
+        absolute_2 += abs(list_copy_2[i] - average_2)
+
+    # 二乗平均を計算するためにi番目の要素を二乗し、すべてを加算する
+        double_1 += list_copy_1[i] ** 2
+        double_2 += list_copy_2[i] ** 2
+
+    # 平均偏差を計算
+    average_deviation_1 = absolute_1 / list_range
+    average_deviation_2 = absolute_2 / list_range
+
+    # 二乗平均を計算
+    double_average_1 = double_1 / list_range
+    double_average_2 = double_2 / list_range
+
+    # 中央値を計算
+    if list_range % 2 == 0:
+        median_1 = (list_copy_1[int(np.floor(list_range / 2))] +
+                    list_copy_1[int(np.floor(list_range / 2 - 1))]) / 2
+        median_2 = (list_copy_2[int(np.floor(list_range) / 2)] +
+                    list_copy_2[int(np.floor(list_range) / 2 - 1)]) / 2
+    elif list_range % 2 == 1:
+        median_1 = list_copy_1[int(np.floor(list_range / 2))]
+        median_2 = list_copy_2[int(np.floor(list_range) / 2)]
+
+    # 最頻値を計算。
+    mode_1 = Counter(list_copy_1).most_common(1)
+    mode_2 = Counter(list_copy_2).most_common(1)
+
+    # 分散を計算　二乗平均 - 平均**2
+    variance_1 = double_average_1 - (average_1 ** 2)
+    variance_2 = double_average_2 - (average_2 ** 2)
+
+    # 標準偏差を計算
+    standard_deviation_1 = np.sqrt(variance_1)
+    standard_deviation_2 = np.sqrt(variance_2)
+
+    # 共分散を計算 積のデータ/データ数 - xの平均 * yの平均
+    covariance = (list_multiplied / list_range) - (average_1 * average_2)
+
+    # 相関係数を計算。0だった場合、Error出力
+    if standard_deviation_1 == 0 or standard_deviation_2 == 0:
+        err = "ERROR: 0のため相関係数を計算できません。"
+        flag = 1
+    else:
+        # 相関係数を計算
+        correlation_coefficient = \
+            covariance / standard_deviation_1 / standard_deviation_2
+
+        # 回帰係数を計算
+        a = covariance / variance_1
+        b = average_2 - (a * average_1)
+
+    # すべての結果をリストに追加
+    list_data_1.extend([list_range,
+                        round(average_1, 4),
+                        median_1,
+                        mode_1[0][0],
+                        max_1,
+                        min_1,
+                        renge_1,
+                        round(double_average_1, 4),
+                        round(average_deviation_1, 4),
+                        round(variance_1, 4),
+                        round(standard_deviation_1, 4)])
+
+    list_data_2.extend([list_range,
+                        round(average_2, 4),
+                        median_2,
+                        mode_2[0][0],
+                        max_2,
+                        min_2,
+                        renge_2,
+                        round(double_average_2, 4),
+                        round(average_deviation_2, 4),
+                        round(variance_2, 4),
+                        round(standard_deviation_2, 4)])
+
+    # 結果を出力。
+    print("\ndate_1\n")
+    for i in range(len(list_data_1)):
+        print(f"{LIST_NAME[i]}{list_data_1[i]}")
+
+    print("\ndate_2\n")
+    for i in range(len(list_data_2)):
+        print(f"{LIST_NAME[i]}{list_data_2[i]}")
+
+    print(f"\n\n共分散:    {covariance:.4f}")
+
+    if flag != 0:
+        print(err)
+    else:
+        print(f"相関係数:  {correlation_coefficient:.4f}")
+        print(f"回帰係数: y = ax + bとするとき、\na = {a:.4f}, b = {b:.4f}")
+
+
+# Osananajimi is god
+def osananajimi(osananajimi_is_the_best_heroine_in_every_story, fxxk_pottode_heroine):
+    '''
+    try:
+        all_heroine == osananajimi
+    except AllHeroineAreOsananajimiException:
+        Me = happy
+        all_heroine = win
+    '''
+    pass
+
+
+# main tlibについての説明
 if __name__ == '__main__':
-	print("tlibへようこそ。\nインポートする際に時間がかかります。\n\nインポート方法\nimport tlib\n\n関数使用方法\ntlib.関数名\n")
+    print("tlibへようこそ。\n適当に遊んでください。")
