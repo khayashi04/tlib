@@ -320,7 +320,8 @@ def zeller(year, month, day):
     else:
         leap_year = "閏年ではありません。"
         flag = 0
-
+    
+    # グレゴリオ暦が始まった1582年10月14以前の場合、日にちが正しくない場合Error
     if year * 10000 + month * 100 + day * 1 < 15821015:
         raise Exception("\nError: 1582年10月15日以降の日にちを挿入してください。")
     elif (month > 12 or month < 1 or day > 31 or day < 1) or \
