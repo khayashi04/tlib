@@ -31,7 +31,7 @@ def help_tlib():
                      "leven(str_1, str_2)",
                      "collatz(num)",
                      "monte_pi(num)",
-                     "birthday(yyyy, m, d)"]
+                     "zeller(year, month, day)"]
 
     list_info = ["numまでのすべての素数を表示し、素数の数を表示。",
                  "listを昇順に並べ替え。",
@@ -50,28 +50,26 @@ def help_tlib():
                  "str_1とstr_2のレーヴェンシュタイン距離を求める。",
                  "numをコラッツ予想の法則に則って計算する。",
                  "num個の点を用いてモンテカルロ法から円周率の近似値を求める。",
-                 "生年月日（yyyy / m / d）の曜日を求める。"]
+                 "year/month/dayから曜日、閏年、昭和、平成、令和の元号を求める。"]
 
     if len(list_function) != len(list_info):
-        raise Exception("開発者はバカ")
-
+        raise Exception("\nError: 開発者はバカ")
     list_range = len(list_function)
     print(f"1 から {list_range} の表示したいHelpの番号を挿入してください。")
     for i in range(list_range):
         print(f"{i + 1}: {list_function[i]}")
-    list_num = input()
+    list_num = int(input()) - 1
     if type(list_num) != int or list_num > list_range or list_num <= 0:
-        print(f"\nError: 1 から{list_range}までの数字で挿入してください。\n")
-
+        raise Exception(f"\nError: 1 から{list_range}までの数字で挿入してください。\n")
     print(
-        f"\n{list_num}: {list_function[list_num - 1]}: {list_info[list_num - 1]}\n")
+        f"\n{list_num + 1}: {list_function[list_num]}: {list_info[list_num]}\n")
 
 
 # エラトステネスの篩を用いた素数洗い出し
 def prime_num(num):
     # numが2以上の自然数の場合Error
     if type(num) != int or num <= 1:
-        raise Exception("2以上の自然数を挿入してください")
+        raise Exception("\nError: 2以上の自然数を挿入してください")
 
     list_prime = []  # 素数を格納するためのリスト
 
@@ -143,8 +141,8 @@ def double_hist(list_1, list_2):
 # 散布図を描画。値渡しは回避済み
 def plot(list_1, list_2):
     # list_1とlist_2のサイズが異なる場合Exception
-    if (len(list_1) != len(list_2)):
-        raise Exception("list_1とlist_2のサイズが異なります。等しくしてください")
+    if len(list_1) != len(list_2):
+        raise Exception("\nError: list_1とlist_2のサイズが異なります。等しくしてください")
 
     plt.scatter(list_1, list_2)
     plt.xlabel("List_1")
@@ -182,8 +180,8 @@ def double_dice_mult():
 # 既約分数を表示
 def fraction(num_1, num_2):
     # 0で割ろうとした場合Exception
-    if (num_2 == 0):
-        raise Exception("0で割ることはできません。")
+    if num_2 == 0:
+        raise Exception("\nError: 0で割ることはできません。")
 
     print(Fraction(num_1, num_2))
 
@@ -191,8 +189,8 @@ def fraction(num_1, num_2):
 # レーヴェンシュタイン距離を求める
 def leven(str_1, str_2):
     # str_1かstr_2がstr型以外の場合exit
-    if (type(str_1) != str or type(str_2) != str):
-        raise Exception("str型の値を挿入してください。")
+    if type(str_1) != str or type(str_2) != str:
+        raise Exception("\nError: str型の値を挿入してください。")
 
     list_num = [0]*3
     list_str_1 = list(map(str, str_1))
@@ -227,8 +225,8 @@ def leven(str_1, str_2):
 def collatz(collatz_num):
     # collatz_numが1以上の自然数以外の場合exit
     if type(collatz_num) != int or collatz_num == 0:
-        raise Exception("1以上の自然数を挿入してください。")
-    
+        raise Exception("\nError: 1以上の自然数を挿入してください。")
+
     collatz_counter = 0  # 1になるまでの施行回数を表示
     back_collatz_num = 0  # ひとつ前の数字を格納
 
@@ -267,7 +265,7 @@ def collatz(collatz_num):
 def monte_pi(all_point):
     # all_pointが1以上の自然数以外の場合exit
     if type(all_point) != int or all_point <= 0:
-        raise Exception("1以上の自然数を挿入してください")
+        raise Exception("\nError: 1以上の自然数を挿入してください")
 
     x = 0  # x軸
     y = 0  # y軸
@@ -309,20 +307,45 @@ def monte_pi(all_point):
     plt.show()
 
 
-# 誕生日の曜日を求める
-def birthday(y, m, d):
-    # y, m, dがint型以外の場合Exception
-    if(type(y) != int or type(m) != int or type(d) != int):
-        raise Exception("int型で挿入してください。")
-    
-    yDiv = y % 100
+# ツェラーの公式を用いて西暦何月何日から曜日を求め、閏年か否かを表示する。
+def zeller(year, month, day):
     # 返り値に対応した曜日を格納したリスト
-    week = ["Saturday", "Sunday", "Monday",
-            "Tuesday", "Wednesday", "Thursday", "Friday"]
+    week = ["土", "日", "月",
+            "火", "水", "木", "金"]
+
+    # 閏年判定
+    if year % 400 == 0 or (year % 4 == 0 and year % 100 != 0):
+        leap_year = "閏年です。"
+        flag = 1
+    else:
+        leap_year = "閏年ではありません。"
+        flag = 0
+
+    if year * 10000 + month * 100 + day * 1 < 15821015:
+        raise Exception("\nError: 1582年10月15日以降の日にちを挿入してください。")
+    elif (month > 12 or month < 1 or day > 31 or day < 1) or \
+            ((month == 4 or month == 6 or month == 9 or month == 11) and day > 30) or \
+            ((month == 2) and ((flag == 1 and day > 29) or (flag == 0 and day > 28))):
+        raise Exception("\nError: 正しく日にちを挿入してください。")
+
+    # ツェラーの公式を用いる際、1月と2月は前年の13月、14月として扱う
+    year_j_f = year
+    month_j_f = month
+
+    if month < 3:
+        year_j_f -= 1
+        month_j_f += 12
+
+    # big_c: 西暦上2桁, big_y: 西暦下2桁
+    big_c = int(year_j_f / 100)
+    big_y = year_j_f % 100
+    
     # ツェラーの公式
-    day_week = (d + math.floor(26 * (m + 1) / 10) + yDiv +
-                math.floor(yDiv / 4) - 2 * math.floor(y / 100) + math.floor(y / 400)) % 7
-    print(week[day_week])
+    day_week = (day + int(26 * (month_j_f + 1) / 10) + big_y +
+                int(big_y / 4) - 2 * big_c + int(big_c / 4)) % 7
+
+    print(
+        f"{year}年{month:02}月{day:02}日は{week[day_week]}曜日です。{leap_year}\n昭和{year - 1925}年, 平成{year - 1988}年, 令和{year - 2018}年")
 
 
 # single_statとdouble_statで使用するリスト
@@ -394,7 +417,7 @@ def double_stat(list_1, list_2):
 
     # list_1とlist_2のサイズが異なった場合exit
     if len(list_copy_1) != len(list_copy_2):
-        print("Error: list_1とlist_2のサイズが異なります。等しくしてください")
+        print("\nError: list_1とlist_2のサイズが異なります。等しくしてください")
 
     # listのサイズを格納
     list_range = len(list_copy_1)
