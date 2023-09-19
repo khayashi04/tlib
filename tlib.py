@@ -90,13 +90,10 @@ def prime_num(num):
     # list_numに残った数を素数としてlist_primeに格納
     list_prime.extend(list_num)
 
-    # 素数を表示
+    # 結果を表示
     list_prime_str = [str(a) for a in list_prime]
     list_prime_str = ' '.join(list_prime_str)
-    print(list_prime_str, "\n")
-
-    # 素数の数を表示
-    print(f"素数の合計: {len(list_prime)}\n")
+    print(f"{list_prime_str}\n素数の合計: {len(list_prime)}\n")
 
 
 # リストソート(昇順)
@@ -215,6 +212,7 @@ def leven(str_1, str_2):
                 list_num[2] = leven_list[y][x] + 1
             leven_list[y + 1][x + 1] = min(list_num)
 
+    # 結果を表示
     leven_data = pd.DataFrame(
         data=leven_list, columns=list_str_1, index=list_str_2)
     print(
@@ -244,7 +242,7 @@ def collatz(collatz_num):
             collatz_num = collatz_num * 3 + 1
 
             # 数式を表示
-            print(f"{int(back_collatz_num)} × 3 + 1 = {int(collatz_num)}")
+            print(f"{int(back_collatz_num)} ｘ 3 + 1 = {int(collatz_num)}")
 
         # numが偶数だった場合
         if collatz_num % 2 == 0:
@@ -320,7 +318,7 @@ def zeller(year, month, day):
     else:
         leap_year = "閏年ではありません。"
         flag = 0
-    
+
     # グレゴリオ暦が始まった1582年10月14以前の場合、日にちが正しくない場合Error
     if year * 10000 + month * 100 + day * 1 < 15821015:
         raise Exception("\nError: 1582年10月15日以降の日にちを挿入してください。")
@@ -340,7 +338,7 @@ def zeller(year, month, day):
     # big_c: 西暦上2桁, big_y: 西暦下2桁
     big_c = int(year_j_f / 100)
     big_y = year_j_f % 100
-    
+
     # ツェラーの公式
     day_week = (day + int(26 * (month_j_f + 1) / 10) + big_y +
                 int(big_y / 4) - 2 * big_c + int(big_c / 4)) % 7
